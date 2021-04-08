@@ -207,6 +207,33 @@ export default {
                         },
                     ],
                 },
+                {
+                    text: "Enderecos",
+                    icon: "mdi-home",
+                    urlSufix: "endereco/get",
+                    headers: [
+                        {
+                            text: "CEP",
+                            value: "cep",
+                        },
+                        {
+                            text: "Logradouro",
+                            value: "logradouro",
+                        },
+                        {
+                            text: "Bairro",
+                            value: "bairro",
+                        },
+                        {
+                            text: "Cidade",
+                            value: "cidade",
+                        },
+                        {
+                            text: "Estado",
+                            value: "estado",
+                        },
+                    ],
+                },
             ],
             selectedItem: 0,
             data: [],
