@@ -12,11 +12,20 @@ namespace EasyHealthApi.Controllers
     public class EnderecoController : Controller
     {
         [HttpGet("get")]
-        public List<Endereco> GetEnderecos()
+        public List<Endereco> GetEnderecos(string cep)
         {
-            EnderecoManager v_manager = new EnderecoManager();
-            List<Endereco> v_result = v_manager.GetEnderecos().ToList();
-            return v_result;
+            if (cep == null)
+            {
+                EnderecoManager v_manager = new EnderecoManager();
+                List<Endereco> v_result = v_manager.GetEnderecos().ToList();
+                return v_result;
+            }
+            else
+            {
+                EnderecoManager v_manager = new EnderecoManager();
+                List<Endereco> v_result = v_manager.GetEnderecosPorCep(cep).ToList();
+                return v_result;
+            }
         }
     }
 }
