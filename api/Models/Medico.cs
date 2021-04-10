@@ -9,6 +9,8 @@ namespace EasyHealthApi.Models
     public class Medico
     {
         public string codigo { get; set; }
+        public string nome { get; set; }
+
         public string especialidade { get; set; }
         public string CRM { get; set; }
     }
@@ -24,13 +26,16 @@ namespace EasyHealthApi.Models
             List<Medico> v_Medicos = new List<Medico>();
             MySqlConnection v_connection = ConnectionDB.connection();
             MySqlCommand v_query = v_connection.CreateCommand();
-            v_query.CommandText = "SELECT * FROM easyhealth.Medico";
+            //v_query.CommandText = "SELECT * FROM easyhealth.Medico";
+            v_query.CommandText = "SELECT m.codigo,p.nome,m.especialidade,m.crm FROM easyhealth.Medico m inner join easyhealth.pessoa p on p.codigo=m.codigo";
+
             v_connection.Open();
             MySqlDataReader v_fetchQuery = v_query.ExecuteReader();
             while (v_fetchQuery.Read())
             {
                 Medico t_Medico = new Medico();
                 t_Medico.codigo = v_fetchQuery["codigo"].ToString(); 
+                t_Medico.nome= v_fetchQuery["nome"].ToString();
                 t_Medico.especialidade = v_fetchQuery["especialidade"].ToString();
                 t_Medico.CRM = v_fetchQuery["CRM"].ToString();
 

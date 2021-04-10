@@ -14,6 +14,7 @@ namespace EasyHealthApi.Models
         public string email { get; set; }
         public string telefone { get; set; }
         public string codigoMedico { get; set; }
+        public string nomeMedico { get; set; }
     }
     public class AgendaManager
     {
@@ -24,7 +25,7 @@ namespace EasyHealthApi.Models
             List<Agenda> v_Agendas = new List<Agenda>();
             MySqlConnection v_connection = ConnectionDB.connection();
             MySqlCommand v_query = v_connection.CreateCommand();
-            v_query.CommandText = "SELECT * FROM easyhealth.Agenda";
+            v_query.CommandText = "SELECT a.codigo, a.`datetime`, a.nome, a.email, a.telefone, a.codigoMedico, p.nome nomeMedico FROM easyhealth.Agenda a inner join easyhealth.pessoa p on p.codigo=a.codigoMedico;";
             v_connection.Open();
             MySqlDataReader v_fetchQuery = v_query.ExecuteReader();
             while (v_fetchQuery.Read())
@@ -36,7 +37,7 @@ namespace EasyHealthApi.Models
                 t_Medico.email = v_fetchQuery["email"].ToString();
                 t_Medico.telefone = v_fetchQuery["telefone"].ToString();
                 t_Medico.codigoMedico = v_fetchQuery["codigoMedico"].ToString();
-
+                t_Medico.nomeMedico = v_fetchQuery["nomeMedico"].ToString();
 
 
                 v_Agendas.Add(t_Medico);

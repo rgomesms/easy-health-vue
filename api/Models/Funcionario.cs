@@ -9,6 +9,7 @@ namespace EasyHealthApi.Models
     public class Funcionario
     {
         public string codigo { get; set; }
+        public string nome { get; set; }
         public string dataContrato { get; set; }
         public string salario { get; set; }
 
@@ -31,13 +32,14 @@ namespace EasyHealthApi.Models
             List<Funcionario> v_funcionarios = new List<Funcionario>();
             MySqlConnection v_connection = ConnectionDB.connection();
             MySqlCommand v_query = v_connection.CreateCommand();
-            v_query.CommandText = "SELECT `codigo`,`dataContrato`,`salario` FROM easyhealth.funcionario";
+            v_query.CommandText = "SELECT f.codigo,p.nome, f.dataContrato,f.salario FROM easyhealth.funcionario f inner join easyhealth.pessoa p on p.codigo=f.codigo";
             v_connection.Open();
             MySqlDataReader v_fetchQuery = v_query.ExecuteReader();
             while (v_fetchQuery.Read())
             {
                 Funcionario t_funcionario = new Funcionario();
                 t_funcionario.codigo = v_fetchQuery["codigo"].ToString();
+                t_funcionario.nome = v_fetchQuery["nome"].ToString();
                 t_funcionario.dataContrato = v_fetchQuery["dataContrato"].ToString();
                 t_funcionario.salario = v_fetchQuery["salario"].ToString();
                 v_funcionarios.Add(t_funcionario);

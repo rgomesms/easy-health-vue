@@ -125,6 +125,10 @@ export default {
                             value: "codigo",
                         },
                         {
+                            text: "Nome",
+                            value: "nome",
+                        },
+                        {
                             text: "Tipo Sanguineo",
                             value: "tipoSanguineo",
                         },
@@ -149,6 +153,10 @@ export default {
                             value: "codigo",
                         },
                         {
+                            text: "Nome",
+                            value: "nome",
+                        },
+                        {
                             text: "Data de Contrato",
                             value: "dataContrato",
                         },
@@ -167,6 +175,10 @@ export default {
                             text: "Codigo",
                             align: "start",
                             value: "codigo",
+                        },
+                        {
+                            text: "Nome",
+                            value: "nome",
                         },
                         {
                             text: "Especialidade",
@@ -204,6 +216,11 @@ export default {
                             text: "Codigo do Medico",
                             align: "start",
                             value: "codigoMedico",
+                        },
+                        {
+                            text: "Nome do Medico",
+                            align: "start",
+                            value: "nomeMedico",
                         },
                     ],
                 },
