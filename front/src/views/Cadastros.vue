@@ -178,13 +178,38 @@ export default {
                         },
                     ],
                 },
+                consulta: {
+                    text: "Consulta",
+                    icon: "mdi-calendar-plus",
+                    fields: {
+                        especialidade: {
+                            label: "Especialidade Medica",
+                            is: "v-select",
+                            required: true,
+                            items: [],
+                            on: {
+                                change: function(especialidade) {
+                                    t.setMedicos(especialidade);
+                                }.bind(t),
+                            },
+                        },
+                        medico: {
+                            label: "Medico",
+                            is: "v-select",
+                            required: true,
+                            items: [],
+                        },
+                    },
+                },
             },
-            selectedItem: 0,
+            selectedItem: 3,
         };
+    },
+    created() {
+        this.setEspecialidades();
     },
     methods: {
         async handleCepUpdate(cep) {
-            console.log("Houve mudança no CEP", cep);
             let data = await fetchCEP(cep);
 
             if (data) {
@@ -209,7 +234,10 @@ export default {
                         data = response.data[0];
                         return data;
                     } catch (e) {
-                        console.log("404 Endereco");
+                        console.log(
+                            `Erro ao realizar a request no endpoint https://localhost:44320/endereco/get?cep=${cep}`,
+                            JSON.stringify(e)
+                        );
                     }
                 }
             }
@@ -217,6 +245,40 @@ export default {
         testar() {
             let itemsArray = Object.values(this.items);
             console.log(itemsArray);
+        },
+        setEspecialidades() {
+            fetchEspecialidades().then((result) => {
+                this.items.consulta.fields.especialidade.items = result.data;
+            });
+            function fetchEspecialidades() {
+                try {
+                    return axios.get(
+                        `https://localhost:44320/medico/get/especialidades`
+                    );
+                } catch (e) {
+                    console.log(
+                        "Erro ao realizar a request no endpoint https://localhost:44320/medico/get/especialidades",
+                        JSON.stringify(e)
+                    );
+                }
+            }
+        },
+        setMedicos(especialidade) {
+            fetchMedicos().then((result) => {
+                this.items.consulta.fields.medico.items = result.data;
+            });
+            function fetchMedicos() {
+                try {
+                    return axios.get(
+                        `https://localhost:44320/medico/get/especialidades?especialidade=${especialidade}`
+                    );
+                } catch (e) {
+                    console.log(
+                        `Erro ao realizar a request no endpoint https://localhost:44320/medico/get/especialidades?especialidade=${especialidade}`,
+                        JSON.stringify(e)
+                    );
+                }
+            }
         },
     },
 };
