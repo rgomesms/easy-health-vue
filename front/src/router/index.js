@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import NewAddress from '../views/NewAddress.vue'
+import Cadastros from '../views/Cadastros.vue'
 import NewAppointment from '../views/NewAppointment.vue'
 import Consultas from '../views/Consultas.vue'
 
@@ -22,9 +22,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Photos.vue')
   },
   {
-    path: '/newaddress',
-    name: 'NewAddress',
-    component: NewAddress
+    path: '/cadastros',
+    name: 'Cadastros',
+    component: Cadastros
   },
   {
     path: '/newappointment',

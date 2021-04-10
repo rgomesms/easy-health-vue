@@ -23,12 +23,12 @@
                     Photos
                 </v-tab>
 
-                <v-tab to="/newaddress">
-                    New Address
+                <v-tab to="/cadastros">
+                    Cadastros
                 </v-tab>
 
                 <v-tab to="/newappointment">
-                    New Appointment
+                    Testes
                 </v-tab>
 
                 <v-tab to="/consultas">
