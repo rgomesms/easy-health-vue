@@ -1,48 +1,26 @@
 <template>
     <v-form ref="form" lazy-validation>
-        <!-- <component v-bind:is="fields[0].is" v-bind="fields[0]" /> -->
-        <!-- <component v-bind:is="fields[0].is" v-bind="fields[0]" /> -->
-
         <template v-for="field of fields">
             <component
                 :is="field.is"
                 v-bind="field"
                 :key="field.label"
+                v-on="field.on"
                 required
             />
         </template>
 
-        <v-select
-            v-model="select"
-            :items="items"
-            :rules="[(v) => !!v || 'Item is required']"
-            label="Item"
-            required
-        ></v-select>
-
-        <v-checkbox
-            v-model="checkbox"
-            :rules="[(v) => !!v || 'You must agree to continue!']"
-            label="Do you agree?"
-            required
-        ></v-checkbox>
-
-        <v-btn
-            :disabled="!valid"
-            color="success"
-            class="mr-4"
-            @click="validate"
-        >
-            Validate
-        </v-btn>
-
-        <!-- <v-btn color="error" class="mr-4" @click="reset">
-            Reset Form
-        </v-btn>
-
-        <v-btn color="warning" @click="resetValidation">
-            Reset Validation
-        </v-btn> -->
+        <template v-for="button of buttons">
+            <component
+                :is="button.is"
+                v-bind="button"
+                :key="button.label"
+                v-on="button.on"
+                required
+            >
+                {{ button.label }}
+            </component>
+        </template>
     </v-form>
 </template>
 
@@ -53,19 +31,30 @@
 </style>
 
 <script>
-// [{ name, type }] um array contendo o nome e o tipo de cada input
-// [ {name, type, function } ] um array contendo os botoes no final do formulario
-import { VTextField, VSelect, VCheckbox } from "vuetify/lib";
-// @ is an alias to /src
+import { VTextField, VSelect, VCheckbox, VBtn } from "vuetify/lib";
+
 export default {
     name: "Address",
     props: {
         fields: {
+            type: Object,
+        },
+        buttons: {
             type: Array,
         },
     },
+    methods: {
+        validate() {
+            console.log(JSON.stringify(this.fields));
+        },
+        test(t) {
+            console.log("entrei no test");
+            alert(t);
+            // this.$emit("update_cep");
+        },
+    },
 
-    components: { VTextField, VSelect, VCheckbox },
+    components: { VTextField, VSelect, VCheckbox, VBtn },
     computed: {
         currentTabComponent: function() {
             return "v-text-field";
