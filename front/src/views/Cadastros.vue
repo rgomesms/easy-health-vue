@@ -178,6 +178,101 @@ export default {
                     text: "Funcionário",
                     icon: "mdi-clipboard-account",
                     fields: {
+                        tipo: {
+                            label: "Tipo",
+                            is: "v-select",
+                            value: "",
+                            items: ["Funcionario", "Médico"],
+                            required: true,
+                            on: {
+                                change: function(especialidade) {
+                                    if (especialidade !== "Médico") {
+                                        t.items.funcionario.fields.especialidade.class =
+                                            "d-none";
+                                        t.items.funcionario.fields.crm.class =
+                                            "d-none";
+                                    } else {
+                                        t.items.funcionario.fields.especialidade.class =
+                                            "";
+                                        t.items.funcionario.fields.crm.class =
+                                            "";
+                                    }
+                                    console.log(
+                                        "Mudou tipo",
+                                        especialidade,
+                                        t.items.funcionario.fields.especialidade
+                                    );
+                                }.bind(t),
+                            },
+                        },
+                        especialidade: {
+                            label: "Especialidade",
+                            is: "v-text-field",
+                            value: "",
+                            class: "",
+                            required: true,
+                        },
+                        crm: {
+                            label: "CRM",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+
+                        nome: {
+                            label: "Nome",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        email: {
+                            label: "Email",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        telefone: {
+                            label: "Telefone",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        cep: {
+                            label: "CEP",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                            counter: 8,
+                            on: {
+                                change: function(cep) {
+                                    t.handleCepUpdate(cep, "paciente");
+                                }.bind(t),
+                            },
+                        },
+                        logradouro: {
+                            label: "Logradouro",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        bairro: {
+                            label: "Bairro",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        cidade: {
+                            label: "Cidade",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        estado: {
+                            label: "Estado",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
                         dataContrato: {
                             label: "Data de Contrato",
                             is: "v-text-field",
@@ -197,6 +292,19 @@ export default {
                             required: true,
                         },
                     },
+                    buttons: [
+                        {
+                            label: "Submeter",
+                            color: "success",
+                            class: "mr-4",
+                            is: "v-btn",
+                            on: {
+                                click: function() {
+                                    t.handleSubmitFuncionario("funcionario");
+                                }.bind(t),
+                            },
+                        },
+                    ],
                 },
                 endereco: {
                     text: "Endereço",
@@ -342,6 +450,7 @@ export default {
                 },
             },
             selectedItem: 2,
+            funcionarioTipo: "",
         };
     },
     created() {
@@ -413,6 +522,24 @@ export default {
             //     }
             // }
             // },
+        },
+
+        handleSubmitFuncionario(path) {
+            let requestBody = {
+                tipo: this.items[path].fields.tipo.value,
+                nome: this.items[path].fields.nome.value,
+                email: this.items[path].fields.email.value,
+                telefone: this.items[path].fields.telefone.value,
+                cep: this.items[path].fields.cep.value,
+                logradouro: this.items[path].fields.logradouro.value,
+                bairro: this.items[path].fields.bairro.value,
+                cidade: this.items[path].fields.cidade.value,
+                estado: this.items[path].fields.estado.value,
+                dataContrato: this.items[path].fields.dataContrato.value,
+                salario: this.items[path].fields.salario.value,
+                senha: this.items[path].fields.senha.value,
+            };
+            console.log(requestBody);
         },
 
         async handleCepUpdate(cep, path) {
