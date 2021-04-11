@@ -75,11 +75,10 @@
 
 <script>
 import FormsComponent from "../components/FormsComponent";
-// import Vue from "vue";
 import axios from "axios";
 
 export default {
-    name: "Address",
+    name: "Cadastros",
     components: { FormsComponent },
     data: (t) => {
         return {
@@ -88,6 +87,60 @@ export default {
                     text: "Paciente",
                     icon: "mdi-account",
                     fields: {
+                        nome: {
+                            label: "Nome",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        email: {
+                            label: "Email",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        telefone: {
+                            label: "Telefone",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        cep: {
+                            label: "CEP",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                            counter: 8,
+                            on: {
+                                change: function(cep) {
+                                    t.handleCepUpdate(cep, "paciente");
+                                }.bind(t),
+                            },
+                        },
+                        logradouro: {
+                            label: "Logradouro",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        bairro: {
+                            label: "Bairro",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        cidade: {
+                            label: "Cidade",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        estado: {
+                            label: "Estado",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
                         tipoSanguineo: {
                             label: "Tipo Sanguineo",
                             is: "v-text-field",
@@ -107,6 +160,19 @@ export default {
                             required: true,
                         },
                     },
+                    buttons: [
+                        {
+                            label: "Submeter",
+                            color: "success",
+                            class: "mr-4",
+                            is: "v-btn",
+                            on: {
+                                click: function() {
+                                    t.handleSubmitPaciente("paciente");
+                                }.bind(t),
+                            },
+                        },
+                    ],
                 },
                 funcionario: {
                     text: "Funcionário",
@@ -195,7 +261,7 @@ export default {
                             counter: 8,
                             on: {
                                 change: function(cep) {
-                                    t.handleCepUpdate(cep);
+                                    t.handleCepUpdate(cep, "enderecoTeste");
                                 }.bind(t),
                             },
                         },
@@ -296,21 +362,57 @@ export default {
             }
         },
 
-        async handleCepUpdate(cep) {
+        handleSubmitPaciente(path) {
+            let requestBody = {
+                nome: this.items[path].fields.nome.value,
+                email: this.items[path].fields.email.value,
+                telefone: this.items[path].fields.telefone.value,
+                cep: this.items[path].fields.cep.value,
+                logradouro: this.items[path].fields.logradouro.value,
+                bairro: this.items[path].fields.bairro.value,
+                cidade: this.items[path].fields.cidade.value,
+                estado: this.items[path].fields.estado.value,
+                tipoSanguineo: this.items[path].fields.tipoSanguineo.value,
+                peso: this.items[path].fields.peso.value,
+                altura: this.items[path].fields.altura.value,
+            };
+            console.log(requestBody);
+            //Checa se tem algum elemento nao preenchido
+            // const isEmpty = !Object.values(requestBody).some(
+            //     (x) => x !== null && x !== ""
+            // );
+
+            // if (!isEmpty) sendNewAddress(requestBody);
+            // else console.log("Preencha todos os campos!");
+
+            // async function sendNewAddress(requestBody) {
+            //     const url = `https://localhost:44320/endereco/post`;
+            //     try {
+            //         const response = await axios.post(url, requestBody);
+            //         return response;
+            //     } catch (e) {
+            //         console.log(
+            //             `Erro ao realizar a request no endpoint ${url}`,
+            //             JSON.stringify(e)
+            //         );
+            //     }
+            // }
+            // },
+        },
+
+        async handleCepUpdate(cep, path) {
             let data = await fetchCEP(cep);
 
             if (data) {
-                let endereco = this.items["enderecoTeste"].fields;
-                endereco.cep.value = data.cep;
-                endereco.logradouro.value = data.logradouro;
-                endereco.bairro.value = data.bairro;
-                endereco.cidade.value = data.cidade;
-                endereco.estado.value = data.estado;
+                this.items[path].fields.cep.value = data.cep;
+                this.items[path].fields.logradouro.value = data.logradouro;
+                this.items[path].fields.bairro.value = data.bairro;
+                this.items[path].fields.cidade.value = data.cidade;
+                this.items[path].fields.estado.value = data.estado;
 
                 // if(this.items["enderecoTeste"].fields){
 
                 // }
-                this.items["enderecoTeste"].fields = endereco;
                 // Vue.set(this.items["enderecoTeste"], "fields", endereco);
             }
 
