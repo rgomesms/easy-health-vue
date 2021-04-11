@@ -48,7 +48,6 @@
                             :buttons="
                                 Object.values(this.items)[selectedItem].buttons
                             "
-                            @update_cep="handleCepUpdate"
                         />
                         <!-- <FormsComponent
                             :fields="items.endereco.fields"
@@ -135,13 +134,6 @@ export default {
                             is: "v-text-field",
                             required: true,
                             counter: 8,
-                            // rules: [
-                            //     (v) => {
-                            //         if (v.length == 8) {
-                            //             return true;
-                            //         } else return "CEP Invalido";
-                            //     },
-                            // ],
                             on: {
                                 change: function(cep) {
                                     t.handleCepUpdate(cep);
@@ -198,6 +190,16 @@ export default {
                             is: "v-select",
                             required: true,
                             items: [],
+                        },
+                    },
+                },
+                teste: {
+                    text: "Teste",
+                    icon: "mdi-home",
+                    fields: {
+                        test: {
+                            label: "Davi muito safado",
+                            is: "v-text-field",
                         },
                     },
                 },

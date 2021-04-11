@@ -278,7 +278,10 @@ export default {
                 this.data = response.data;
                 this.headers = this.items[this.selectedItem].headers;
             } catch (e) {
-                alert("Houve erro" + `https://localhost:44320/${urlSufix}`);
+                alert(
+                    "Houve erro" +
+                        `https://localhost:44320/${urlSufix} - Certifique-se que a API esta disponível nesse endereço`
+                );
                 this.errors.push(e);
             }
             this.loading = false;
