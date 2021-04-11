@@ -312,6 +312,21 @@ export default {
                             required: true,
                             items: [],
                         },
+                        data: {
+                            label: "Data",
+                            is: "v-text-field",
+                            required: true,
+                            value: "TEMPORARIO - ADICIONAR COMPONENTE DATA",
+                            items: [],
+                        },
+                        horario: {
+                            label: "Horario",
+                            is: "v-text-field",
+                            required: true,
+                            value:
+                                "TEMPORARIO - ADICIONAR COMPONENTE PARA HORARIO",
+                            items: [],
+                        },
                     },
                 },
                 teste: {
