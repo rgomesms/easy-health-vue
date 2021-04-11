@@ -27,5 +27,13 @@ namespace EasyHealthApi.Controllers
                 return v_result;
             }
         }
+        [HttpPost("post")]
+        public void AddEndereco(Endereco endereco)
+        {
+
+            EnderecoManager v_manager = new EnderecoManager();
+            v_manager.AddEndereco(endereco);
+
+        }
     }
 }

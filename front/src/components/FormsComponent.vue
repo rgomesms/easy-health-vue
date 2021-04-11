@@ -6,6 +6,7 @@
                 v-bind="field"
                 :key="field.label"
                 v-on="field.on"
+                v-model="field.value"
                 required
             />
         </template>

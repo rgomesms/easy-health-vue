@@ -64,5 +64,25 @@ namespace EasyHealthApi.Models
 
             return v_enderecos;
         }
+
+        public void AddEndereco(Endereco endereco)
+        {
+            MySqlConnection v_connection = ConnectionDB.connection();
+            v_connection.Open();
+            MySqlCommand v_query = v_connection.CreateCommand();
+
+            v_query.CommandText = "INSERT INTO easyhealth.enderecos (cep,logradouro,bairro,cidade,estado) " +
+                $"values ('{endereco.CEP}','{endereco.logradouro}','{endereco.bairro}','{endereco.cidade}','{endereco.estado}')";
+
+            try
+            {
+                v_query.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem inserting new Endereco into database: " + ex.Message);
+            }
+        }
+
     }
 }

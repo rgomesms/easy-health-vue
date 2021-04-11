@@ -75,6 +75,7 @@
 
 <script>
 import FormsComponent from "../components/FormsComponent";
+// import Vue from "vue";
 import axios from "axios";
 
 export default {
@@ -90,16 +91,19 @@ export default {
                         tipoSanguineo: {
                             label: "Tipo Sanguineo",
                             is: "v-text-field",
+                            value: "",
                             required: true,
                         },
                         peso: {
                             label: "Peso",
                             is: "v-text-field",
+                            value: "",
                             required: true,
                         },
                         altura: {
                             label: "Altura",
                             is: "v-text-field",
+                            value: "",
                             required: true,
                         },
                     },
@@ -111,16 +115,19 @@ export default {
                         dataContrato: {
                             label: "Data de Contrato",
                             is: "v-text-field",
+                            value: "",
                             required: true,
                         },
                         salario: {
                             label: "Salario",
                             is: "v-text-field",
+                            value: "",
                             required: true,
                         },
                         senha: {
                             label: "Senha (Provisorio)",
                             is: "v-text-field",
+                            value: "",
                             required: true,
                         },
                     },
@@ -132,6 +139,58 @@ export default {
                         cep: {
                             label: "CEP",
                             is: "v-text-field",
+                            value: "",
+                            required: true,
+                            counter: 8,
+                        },
+                        logradouro: {
+                            label: "Logradouro",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        bairro: {
+                            label: "Bairro",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        cidade: {
+                            label: "Cidade",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                        estado: {
+                            label: "Estado",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                        },
+                    },
+                    buttons: [
+                        {
+                            label: "Submeter",
+                            color: "success",
+                            class: "mr-4",
+                            is: "v-btn",
+                            on: {
+                                click: function() {
+                                    t.handleSubmitAddress("endereco");
+                                }.bind(t),
+                            },
+                        },
+                    ],
+                },
+                //Exemplo de teste, para o testar a mudança de cep alterar campos, para o cadastro de funcionario
+                enderecoTeste: {
+                    text: "AutoCompletaCepAPI",
+                    icon: "mdi-comment-alert",
+                    fields: {
+                        cep: {
+                            label: "CEP",
+                            is: "v-text-field",
+                            value: "",
                             required: true,
                             counter: 8,
                             on: {
@@ -143,32 +202,28 @@ export default {
                         logradouro: {
                             label: "Logradouro",
                             is: "v-text-field",
+                            value: "",
                             required: true,
                         },
                         bairro: {
                             label: "Bairro",
                             is: "v-text-field",
+                            value: "",
                             required: true,
                         },
                         cidade: {
                             label: "Cidade",
                             is: "v-text-field",
+                            value: "",
                             required: true,
                         },
                         estado: {
                             label: "Estado",
                             is: "v-text-field",
+                            value: "",
                             required: true,
                         },
                     },
-                    buttons: [
-                        {
-                            label: "Submeter",
-                            color: "success",
-                            class: "mr-4",
-                            is: "v-btn",
-                        },
-                    ],
                 },
                 consulta: {
                     text: "Consulta",
@@ -200,29 +255,63 @@ export default {
                         test: {
                             label: "Davi muito safado",
                             is: "v-text-field",
+                            value: "",
                         },
                     },
                 },
             },
-            selectedItem: 3,
+            selectedItem: 2,
         };
     },
     created() {
         this.setEspecialidades();
     },
     methods: {
+        handleSubmitAddress() {
+            let requestBody = {
+                cep: this.items.endereco.fields.cep.value,
+                logradouro: this.items.endereco.fields.logradouro.value,
+                bairro: this.items.endereco.fields.bairro.value,
+                cidade: this.items.endereco.fields.cidade.value,
+                estado: this.items.endereco.fields.estado.value,
+            };
+            //Checa se tem algum elemento nao preenchido
+            const isEmpty = !Object.values(requestBody).some(
+                (x) => x !== null && x !== ""
+            );
+            if (!isEmpty) sendNewAddress(requestBody);
+            else alert("Preencha todos os campos!");
+
+            async function sendNewAddress(requestBody) {
+                const url = `https://localhost:44320/endereco/post`;
+                try {
+                    const response = await axios.post(url, requestBody);
+                    return response;
+                } catch (e) {
+                    console.log(
+                        `Erro ao realizar a request no endpoint ${url}`,
+                        JSON.stringify(e)
+                    );
+                }
+            }
+        },
+
         async handleCepUpdate(cep) {
             let data = await fetchCEP(cep);
 
             if (data) {
-                let endereco = this.items["endereco"].fields;
+                let endereco = this.items["enderecoTeste"].fields;
                 endereco.cep.value = data.cep;
                 endereco.logradouro.value = data.logradouro;
                 endereco.bairro.value = data.bairro;
                 endereco.cidade.value = data.cidade;
                 endereco.estado.value = data.estado;
 
-                this.items["endereco"].fields = endereco;
+                // if(this.items["enderecoTeste"].fields){
+
+                // }
+                this.items["enderecoTeste"].fields = endereco;
+                // Vue.set(this.items["enderecoTeste"], "fields", endereco);
             }
 
             async function fetchCEP(cep) {
