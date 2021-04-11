@@ -33,6 +33,7 @@
 
 <script>
 import { VTextField, VSelect, VCheckbox, VBtn } from "vuetify/lib";
+import DatePickerComponent from "./DatePickerComponent";
 
 export default {
     name: "Address",
@@ -55,7 +56,13 @@ export default {
         },
     },
 
-    components: { VTextField, VSelect, VCheckbox, VBtn },
+    components: {
+        VTextField,
+        VSelect,
+        VCheckbox,
+        VBtn,
+        DatePickerComponent: DatePickerComponent,
+    },
     computed: {
         currentTabComponent: function() {
             return "v-text-field";

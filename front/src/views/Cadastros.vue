@@ -143,8 +143,19 @@ export default {
                         },
                         tipoSanguineo: {
                             label: "Tipo Sanguineo",
-                            is: "v-text-field",
+                            is: "v-select",
                             value: "",
+                            chips: true,
+                            items: [
+                                "A+",
+                                "A-",
+                                "B+",
+                                "B-",
+                                "AB+",
+                                "AB-",
+                                "O+",
+                                "O-",
+                            ],
                             required: true,
                         },
                         peso: {
@@ -422,11 +433,18 @@ export default {
                         },
                         data: {
                             label: "Data",
-                            is: "v-text-field",
+                            is: "DatePickerComponent",
                             required: true,
                             value: "TEMPORARIO - ADICIONAR COMPONENTE DATA",
                             items: [],
                         },
+                        // data: {
+                        //     label: "Data",
+                        //     is: "v-text-field",
+                        //     required: true,
+                        //     value: "TEMPORARIO - ADICIONAR COMPONENTE DATA",
+                        //     items: [],
+                        // },
                         horario: {
                             label: "Horario",
                             is: "v-text-field",
