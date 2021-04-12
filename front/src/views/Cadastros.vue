@@ -430,28 +430,46 @@ export default {
                             is: "v-select",
                             required: true,
                             items: [],
+                            itemsCodigos: [],
+                            on: {
+                                change: function() {
+                                    //Caso medico tenha valor, exibe os campos data e horario, senao nem exibe.
+                                    if (t.items.consulta.fields.medico.value) {
+                                        t.items.consulta.fields.data.classType =
+                                            "";
+                                        t.items.consulta.fields.horario.class =
+                                            "";
+                                    } else {
+                                        t.items.consulta.fields.data.classType =
+                                            "d-none";
+                                        t.items.consulta.fields.horario.class =
+                                            "d-none";
+                                    }
+                                }.bind(t),
+                            },
                         },
                         data: {
                             label: "Data",
                             is: "DatePickerComponent",
                             required: true,
-                            value: "TEMPORARIO - ADICIONAR COMPONENTE DATA",
-                            items: [],
+                            value: new Date().toISOString().substr(0, 10),
+                            on: {
+                                changedDate: function(date) {
+                                    //Atualiza o valor do componente filho para aqui.
+                                    t.items.consulta.fields.data.value = date;
+                                    t.setHorarios(date);
+                                }.bind(t),
+                            },
+                            classType: "d-none",
                         },
-                        // data: {
-                        //     label: "Data",
-                        //     is: "v-text-field",
-                        //     required: true,
-                        //     value: "TEMPORARIO - ADICIONAR COMPONENTE DATA",
-                        //     items: [],
-                        // },
                         horario: {
                             label: "Horario",
-                            is: "v-text-field",
+                            is: "v-select",
                             required: true,
-                            value:
-                                "TEMPORARIO - ADICIONAR COMPONENTE PARA HORARIO",
+                            // value:
+                            //     "TEMPORARIO - ADICIONAR COMPONENTE PARA HORARIO",
                             items: [],
+                            class: "d-none",
                         },
                     },
                 },
@@ -467,7 +485,7 @@ export default {
                     },
                 },
             },
-            selectedItem: 2,
+            selectedItem: 4,
             funcionarioTipo: "",
         };
     },
@@ -569,11 +587,6 @@ export default {
                 this.items[path].fields.bairro.value = data.bairro;
                 this.items[path].fields.cidade.value = data.cidade;
                 this.items[path].fields.estado.value = data.estado;
-
-                // if(this.items["enderecoTeste"].fields){
-
-                // }
-                // Vue.set(this.items["enderecoTeste"], "fields", endereco);
             }
 
             async function fetchCEP(cep) {
@@ -597,11 +610,29 @@ export default {
         },
         testar() {
             let itemsArray = Object.values(this.items);
-            console.log(itemsArray);
+            console.log(itemsArray[this.selectedItem]);
+        },
+        setHorarios() {
+            // alert(this.items.consulta.fields.medico.value, date);
+            // fetchHorarios().then((response) => {
+            //     this.items.consulta.fields.especialidade.items = response.data;
+            // });
+            // function fetchHorarios() {
+            //     try {
+            //         return axios.get(
+            //             `https://localhost:44320/agenda/get/horarios?`
+            //         );
+            //     } catch (e) {
+            //         console.log(
+            //             "Erro ao realizar a request no endpoint https://localhost:44320/agenda/get/horarios?",
+            //             JSON.stringify(e)
+            //         );
+            //     }
+            // }
         },
         setEspecialidades() {
-            fetchEspecialidades().then((result) => {
-                this.items.consulta.fields.especialidade.items = result.data;
+            fetchEspecialidades().then((response) => {
+                this.items.consulta.fields.especialidade.items = response.data;
             });
             function fetchEspecialidades() {
                 try {
@@ -617,8 +648,19 @@ export default {
             }
         },
         setMedicos(especialidade) {
-            fetchMedicos().then((result) => {
-                this.items.consulta.fields.medico.items = result.data;
+            fetchMedicos().then((response) => {
+                //A partir do json no formato {nome, codigo, ..., ...}
+                //Vou pegar o campo nome e colocar no items(para exibicao)
+                //E salvo o codigo no campo itemsCodigos. Identifico os dois pelo index em comum
+                const { data } = response;
+                let nomes = [];
+                let codigos = [];
+                data.forEach(function(medico) {
+                    nomes.push(medico.nome);
+                    codigos.push(medico.codigo);
+                });
+                this.items.consulta.fields.medico.items = nomes;
+                this.items.consulta.fields.medico.itemsCodigos = codigos;
             });
             function fetchMedicos() {
                 try {

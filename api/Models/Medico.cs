@@ -63,19 +63,25 @@ namespace EasyHealthApi.Models
 
             return v_especialidades;
         }
-        public List<String> GetMedicosPorEspecialidade(String especialidade)
+        public List<Medico> GetMedicosPorEspecialidade(String especialidade)
         {
-            List<String> v_medicos = new List<String>();
+            List<Medico> v_medicos = new List<Medico>();
             MySqlConnection v_connection = ConnectionDB.connection();
             MySqlCommand v_query = v_connection.CreateCommand();
-            v_query.CommandText = "select p.nome from easyhealth.Medico m inner join easyhealth.Pessoa p on P.codigo=M.codigo where m.especialidade='" + especialidade + "'";
+            v_query.CommandText = "select p.nome,p.codigo from easyhealth.Medico m inner join easyhealth.Pessoa p on P.codigo=M.codigo where m.especialidade='" + especialidade + "'";
                 //='Urologista'";
             v_connection.Open();
             MySqlDataReader v_fetchQuery = v_query.ExecuteReader();
             while (v_fetchQuery.Read())
             {
-                v_medicos.Add(v_fetchQuery["nome"].ToString());
+                Medico t_Medico = new Medico();
+                t_Medico.codigo = v_fetchQuery["codigo"].ToString();
+                t_Medico.nome = v_fetchQuery["nome"].ToString();
+                //v_medicos.Add(v_fetchQuery["nome"].ToString());
+                //v_medicos.Add(v_fetchQuery["codigo"].ToString());
+                v_medicos.Add(t_Medico);
             }
+
             v_connection.Close();
 
             return v_medicos;

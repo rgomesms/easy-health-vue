@@ -46,6 +46,36 @@ namespace EasyHealthApi.Models
 
             return v_Agendas;
         }
+        //TODO
+        //public List<string> GetHorariosDisponiveis(int codigoMedico, string date)
+        ////Espero receber a data no seguinte formato '%Y/%m/%d'
+        //{
+        //    List<string> v_Agendas = new List<string>();
+        //    MySqlConnection v_connection = ConnectionDB.connection();
+        //    MySqlCommand v_query = v_connection.CreateCommand();
+        //    //Tem de fazer essa query
+        //    v_query.CommandText = $"SELECT date_format(datetime, '%H:%i') `date` from easyhealth.agenda where codigoMedico = '{codigoMedico}' and date_format(datetime, '%Y/%m/%d') = '{date}';";
+        //    v_connection.Open();
+        //    MySqlDataReader v_fetchQuery = v_query.ExecuteReader();
+        //    while (v_fetchQuery.Read())
+        //    {
+
+        //        //Agenda t_Medico = new Agenda();
+        //        //t_Medico.codigo = v_fetchQuery["codigo"].ToString();
+        //        //t_Medico.datetime = v_fetchQuery["datetime"].ToString();
+        //        //t_Medico.nome = v_fetchQuery["nome"].ToString();
+        //        //t_Medico.email = v_fetchQuery["email"].ToString();
+        //        //t_Medico.telefone = v_fetchQuery["telefone"].ToString();
+        //        //t_Medico.codigoMedico = v_fetchQuery["codigoMedico"].ToString();
+        //        //t_Medico.nomeMedico = v_fetchQuery["nomeMedico"].ToString();
+
+
+        //        v_Agendas.Add( v_fetchQuery["date"].ToString()) ;
+        //    }
+        //    v_connection.Close();
+
+        //    return v_Agendas;
+        //}
     }
 
 

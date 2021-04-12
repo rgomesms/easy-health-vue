@@ -20,7 +20,7 @@ namespace EasyHealthApi.Controllers
         }
 
         [HttpGet("get/especialidades")]
-        public List<String> GetEspecialidades(String especialidade)
+        public Object GetEspecialidades(String especialidade)
         {
             MedicoManager v_manager = new MedicoManager();
             //Se tem uma especialidade como parametro, pega esses medicos
@@ -32,7 +32,7 @@ namespace EasyHealthApi.Controllers
             }
             else
             {
-                List<String> v_result = v_manager.GetMedicosPorEspecialidade(especialidade).ToList();
+                List<Medico> v_result = v_manager.GetMedicosPorEspecialidade(especialidade).ToList();
                 return v_result;
             }
         }
