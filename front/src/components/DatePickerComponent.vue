@@ -9,7 +9,7 @@
     >
         <template v-slot:activator="{ on, attrs }">
             <v-text-field
-                v-model="date"
+                :value="viewDate"
                 :label="label"
                 append-icon="mdi-calendar"
                 readonly
@@ -28,6 +28,7 @@
 
 <script>
 import { VMenu } from "vuetify/lib";
+import moment from "moment";
 export default {
     name: "DatePickerComponent",
     components: { VMenu },
@@ -45,16 +46,24 @@ export default {
             type: String,
         },
     },
+    computed: {
+        viewDate: function() {
+            if (this.date != "") return moment(this.date).format("DD-MM-YYYY");
+            else return "";
+        },
+    },
     methods: {
-        changedDate(d) {
-            this.$emit("changedDate", d);
+        changedDate(date) {
+            this.$emit("changedDate", date);
         },
     },
     created() {
         this.date = this.value;
+        // this.viewDate = moment(this.date).format("DD-MM-YYYY");
     },
     data: () => ({
         date: "",
+        // viewDate: "",
         menu: false,
         modal: false,
         menu2: false,
