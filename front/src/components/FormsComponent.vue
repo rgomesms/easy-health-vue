@@ -16,9 +16,9 @@
                         v-model="field.value"
                         @change="validate"
                         :required="field.required"
-                        dense="true"
-                        shaped="true"
-                        outlined="true"
+                        dense
+                        shaped
+                        outlined
                     />
                 </v-col>
             </template>
@@ -32,8 +32,8 @@
                 v-on:click="submit"
                 :disabled="!valid"
                 elevation="4"
-                rounded="true"
-                large="true"
+                rounded
+                large
                 class="mr-4 mt-3 mb-10 mx-auto"
             >
                 {{ button.label }}

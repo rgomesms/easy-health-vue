@@ -8,10 +8,10 @@
                         elevation="2"
                         style="min-height:40vh"
                         class="pa-5 pt-3 ml-5 mr-5"
-                        outlined="true"
+                        outlined
                     >
                         <v-list dense>
-                            <v-subheader inset="true"
+                            <v-subheader inset
                                 >Selecione o tipo de cadastro:</v-subheader
                             >
                             <v-list-item-group
@@ -41,7 +41,7 @@
                         elevation="2"
                         style="min-height:70vh"
                         class="pa-12"
-                        outlined="true"
+                        outlined
                     >
                         <FormsComponent
                             :fields="
