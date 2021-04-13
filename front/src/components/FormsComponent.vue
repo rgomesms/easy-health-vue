@@ -1,17 +1,28 @@
 <template>
     <v-form ref="form" v-model="valid" lazy-validation>
-        <template v-for="field of fields">
-            <component
-                :is="field.is"
-                v-bind="field"
-                :key="field.label"
-                :rules="rules(field.required)"
-                v-on="field.on"
-                v-model="field.value"
-                @change="validate"
-                :required="field.required"
-            />
-        </template>
+        <v-row>
+            <template v-for="field of fields">
+                <v-col
+                    :cols="field.size || 12"
+                    class="pa-2 pb-0 pt-0 mb-0 mr-0"
+                    :key="field.label"
+                >
+                    <component
+                        :is="field.is"
+                        v-bind="field"
+                        :key="field.label"
+                        :rules="rules(field.required)"
+                        v-on="field.on"
+                        v-model="field.value"
+                        @change="validate"
+                        :required="field.required"
+                        dense="true"
+                        shaped="true"
+                        outlined="true"
+                    />
+                </v-col>
+            </template>
+        </v-row>
 
         <template v-for="button of buttons">
             <component
@@ -20,6 +31,10 @@
                 :key="button.label"
                 v-on:click="submit"
                 :disabled="!valid"
+                elevation="4"
+                rounded="true"
+                large="true"
+                class="mr-4 mt-3 mb-10 mx-auto"
             >
                 {{ button.label }}
             </component>
@@ -34,7 +49,7 @@
 </style>
 
 <script>
-import { VTextField, VSelect, VCheckbox, VBtn } from "vuetify/lib";
+import { VTextField, VSelect, VCheckbox, VBtn, VCol } from "vuetify/lib";
 import DatePickerComponent from "./DatePickerComponent";
 
 export default {
@@ -71,6 +86,7 @@ export default {
         VCheckbox,
         VBtn,
         DatePickerComponent: DatePickerComponent,
+        VCol,
     },
     computed: {
         rules: function() {

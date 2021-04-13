@@ -11,6 +11,9 @@
             <v-text-field
                 :value="viewDate"
                 :label="label"
+                shaped
+                outlined
+                dense
                 append-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"

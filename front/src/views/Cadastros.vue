@@ -2,15 +2,16 @@
     <v-content style="padding-top:30px;" class="address">
         <v-container fluid>
             <v-row class="dd">
-                <v-col sm="2">
+                <v-col sm="3">
                     <v-card
                         rounded="lg"
-                        elevation="1"
+                        elevation="2"
                         style="min-height:40vh"
-                        class="pa-3"
+                        class="pa-5 pt-3 ml-5 mr-5"
+                        outlined="true"
                     >
                         <v-list dense>
-                            <v-subheader
+                            <v-subheader inset="true"
                                 >Selecione o tipo de cadastro:</v-subheader
                             >
                             <v-list-item-group
@@ -37,9 +38,10 @@
                 <v-col sm="8">
                     <v-card
                         rounded="lg"
-                        elevation="1"
+                        elevation="2"
                         style="min-height:70vh"
                         class="pa-12"
+                        outlined="true"
                     >
                         <FormsComponent
                             :fields="
@@ -50,11 +52,6 @@
                             "
                         />
                         <v-btn @click="testar">Testar</v-btn>
-                    </v-card>
-                </v-col>
-                <v-col sm="2">
-                    <v-card rounded="lg" elevation="1" style="min-height:40vh">
-                        <h3>This is the address page</h3>
                     </v-card>
                 </v-col>
             </v-row>
@@ -93,6 +90,7 @@ export default {
                             label: "Email",
                             is: "v-text-field",
                             value: "",
+                            size: 8,
                             required: true,
                         },
                         telefone: {
@@ -100,6 +98,7 @@ export default {
                             is: "v-text-field",
                             value: "",
                             required: true,
+                            size: 4,
                         },
                         cep: {
                             label: "CEP",
@@ -107,41 +106,49 @@ export default {
                             value: "",
                             required: true,
                             counter: 8,
+                            size: 6,
                             on: {
                                 change: function(cep) {
                                     t.handleCepUpdate(cep, "paciente");
                                 }.bind(t),
                             },
                         },
-                        logradouro: {
-                            label: "Logradouro",
+                        estado: {
+                            label: "Estado",
                             is: "v-text-field",
                             value: "",
-                            required: true,
-                        },
-                        bairro: {
-                            label: "Bairro",
-                            is: "v-text-field",
-                            value: "",
+                            size: 6,
                             required: true,
                         },
                         cidade: {
                             label: "Cidade",
                             is: "v-text-field",
                             value: "",
+                            size: 6,
                             required: true,
                         },
-                        estado: {
-                            label: "Estado",
+                        bairro: {
+                            label: "Bairro",
                             is: "v-text-field",
                             value: "",
+                            size: 6,
+                            required: true,
+                        },
+                        logradouro: {
+                            label: "Logradouro",
+                            is: "v-text-field",
+                            value: "",
+                            size: 8,
                             required: true,
                         },
                         tipoSanguineo: {
                             label: "Tipo Sanguineo",
                             is: "v-select",
                             value: "",
-                            chips: true,
+                            dense: true,
+                            outlined: true,
+                            class: "pt-0 mt-0",
+                            size: 3,
                             items: [
                                 "A+",
                                 "A-",
@@ -158,12 +165,14 @@ export default {
                             label: "Peso",
                             is: "v-text-field",
                             value: "",
+                            size: 2,
                             required: true,
                         },
                         altura: {
                             label: "Altura",
                             is: "v-text-field",
                             value: "",
+                            size: 2,
                             required: true,
                         },
                     },
@@ -171,7 +180,6 @@ export default {
                         submit: {
                             label: "Submeter",
                             color: "success",
-                            class: "mr-4",
                             is: "v-btn",
                             on: {
                                 click: function() {
@@ -480,7 +488,7 @@ export default {
                     },
                 },
             },
-            selectedItem: 3,
+            selectedItem: 0,
             funcionarioTipo: "",
         };
     },
