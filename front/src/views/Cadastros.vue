@@ -198,11 +198,15 @@ export default {
                                             "d-none";
                                         t.items.funcionario.fields.crm.class =
                                             "d-none";
+                                        // t.items.funcionario.fields.especialidade.required = false;
+                                        // t.items.funcionario.fields.crm.required = false;
                                     } else {
                                         t.items.funcionario.fields.especialidade.class =
                                             "";
                                         t.items.funcionario.fields.crm.class =
                                             "";
+                                        // t.items.funcionario.fields.especialidade.required = true;
+                                        // t.items.funcionario.fields.crm.required = true;
                                     }
                                 }.bind(t),
                             },
@@ -212,13 +216,13 @@ export default {
                             is: "v-text-field",
                             value: "",
                             class: "d-none",
-                            required: true,
+                            required: false,
                         },
                         crm: {
                             label: "CRM",
                             is: "v-text-field",
                             value: "",
-                            required: true,
+                            required: false,
                             class: "d-none",
                         },
 
@@ -277,10 +281,19 @@ export default {
                             required: true,
                         },
                         dataContrato: {
-                            label: "Data de Contrato",
-                            is: "v-text-field",
-                            value: "",
+                            label: "Data do Contrato",
+                            is: "DatePickerComponent",
                             required: true,
+                            value: "",
+                            on: {
+                                changedDate: function(date) {
+                                    t.items.funcionario.fields.dataContrato.value = date;
+                                    console.log(
+                                        t.items.funcionario.fields.dataContrato
+                                            .value
+                                    );
+                                }.bind(t),
+                            },
                         },
                         salario: {
                             label: "Salario",
@@ -370,6 +383,7 @@ export default {
                             is: "v-select",
                             required: true,
                             items: [],
+                            value: "",
                             on: {
                                 change: function(especialidade) {
                                     t.setMedicos(especialidade);
@@ -380,6 +394,7 @@ export default {
                             label: "Medico",
                             is: "v-select",
                             required: true,
+                            value: "",
                             items: [],
                             itemsCodigos: [],
                             on: {
@@ -413,12 +428,10 @@ export default {
                             label: "Data",
                             is: "DatePickerComponent",
                             required: true,
-                            value: new Date().toISOString().substr(0, 10),
+                            value: "",
                             on: {
                                 changedDate: function(date) {
-                                    //Atualiza o valor do componente filho para aqui.
                                     t.items.consulta.fields.data.value = date;
-                                    t.setHorarios(date);
                                 }.bind(t),
                             },
                             classType: "d-none",
