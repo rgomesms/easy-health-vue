@@ -86,6 +86,7 @@ export default {
                             is: "v-text-field",
                             value: "",
                             required: true,
+                            size: 12,
                         },
                         email: {
                             label: "Email",
@@ -200,6 +201,7 @@ export default {
                             value: "",
                             items: ["Funcionario", "Médico"],
                             required: true,
+                            size: 4,
                             on: {
                                 change: function(especialidade) {
                                     if (especialidade !== "Médico") {

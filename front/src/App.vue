@@ -19,7 +19,7 @@
                     Home
                 </v-tab>
 
-                <v-tab to=/photos>
+                <v-tab :tipoUsuario=tipoUsuario to=/photos>
                     Photos
                 </v-tab>
 
@@ -38,10 +38,17 @@
             </v-tabs>
 
             <v-spacer></v-spacer>
-            
-            <ModalLogin
+
+            <ModalLogin v-if="!this.tipoUsuario"
                 @close="closeModal"
+                @login="loginSucedido"
             />
+            <v-btn v-else
+                 color="primary"
+                    dark
+                    > 
+                    Logout
+                </v-btn>
         </v-app-bar>
 
         <v-main style="background-color:#eeeeee"> <router-view></router-view> </v-main>
@@ -59,9 +66,14 @@ export default {
     data() {
       return {
         isModalVisible: false,
+        tipoUsuario:"asdasdasd"
       };
     },
     methods: {
+        loginSucedido(e){
+            this.tipoUsuario=e;
+            console.log(this.tipoUsuario);
+        },
       showModal() {
         this.isModalVisible = true;
       },
