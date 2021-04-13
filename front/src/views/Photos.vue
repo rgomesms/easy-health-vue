@@ -1,6 +1,6 @@
 <template>
     <div class="about">
-        <h1>This the photo gallery page {{ tipoUsuario }}</h1>
+        <photos-gallery></photos-gallery>
     </div>
 </template>
 
@@ -11,7 +11,12 @@
 </style>
 
 <script>
+import PhotosGallery from '../components/Photos/PhotosGallery';
 export default {
+    name: "Photos",
+    components: {
+        'photos-gallery': PhotosGallery,
+    },
     props: {
         tipoUsuario: {
             type: String,

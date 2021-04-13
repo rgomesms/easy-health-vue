@@ -20,7 +20,7 @@
                 </v-tab>
 
                 <v-tab :tipoUsuario=tipoUsuario to=/photos>
-                    Photos
+                    Fotos
                 </v-tab>
 
                 <v-tab to="/cadastros">
