@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Rodrigo\\Documents\\code\\t-vue-clinic\\easy-health\\EasyHealthApi\\EasyHealthApi.csproj": {}
+    "C:\\Users\\PICHAU\\Documents\\GitHub\\easy-health-vue\\api\\EasyHealthApi.csproj": {}
   },
   "projects": {
-    "D:\\Rodrigo\\Documents\\code\\t-vue-clinic\\easy-health\\EasyHealthApi\\EasyHealthApi.csproj": {
+    "C:\\Users\\PICHAU\\Documents\\GitHub\\easy-health-vue\\api\\EasyHealthApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Rodrigo\\Documents\\code\\t-vue-clinic\\easy-health\\EasyHealthApi\\EasyHealthApi.csproj",
+        "projectUniqueName": "C:\\Users\\PICHAU\\Documents\\GitHub\\easy-health-vue\\api\\EasyHealthApi.csproj",
         "projectName": "EasyHealthApi",
-        "projectPath": "D:\\Rodrigo\\Documents\\code\\t-vue-clinic\\easy-health\\EasyHealthApi\\EasyHealthApi.csproj",
-        "packagesPath": "C:\\Users\\Rodrigo\\.nuget\\packages\\",
-        "outputPath": "D:\\Rodrigo\\Documents\\code\\t-vue-clinic\\easy-health\\EasyHealthApi\\obj\\",
+        "projectPath": "C:\\Users\\PICHAU\\Documents\\GitHub\\easy-health-vue\\api\\EasyHealthApi.csproj",
+        "packagesPath": "C:\\Users\\PICHAU\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\PICHAU\\Documents\\GitHub\\easy-health-vue\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Rodrigo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\PICHAU\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +26,6 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -38,7 +37,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.AspNetCore.Cors": {
               "target": "Package",
@@ -51,6 +49,10 @@
             "MySql.Data": {
               "target": "Package",
               "version": "[8.0.23, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
             }
           },
           "imports": [
@@ -71,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

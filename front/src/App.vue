@@ -38,11 +38,10 @@
             </v-tabs>
 
             <v-spacer></v-spacer>
-
-            <v-btn target="_blank" text>
-                <span class="mr-2">Login</span>
-                <v-icon>mdi-open-in-new</v-icon>
-            </v-btn>
+            
+            <ModalLogin
+                @close="closeModal"
+            />
         </v-app-bar>
 
         <v-main style="background-color:#eeeeee"> <router-view></router-view> </v-main>
@@ -50,10 +49,25 @@
 </template>
 
 <script>
-
+import ModalLogin from './components/ModalLogin.vue';
 
 export default {
     name: "App",
-    data: () => ({}),
+    components: {
+      ModalLogin,
+    },
+    data() {
+      return {
+        isModalVisible: false,
+      };
+    },
+    methods: {
+      showModal() {
+        this.isModalVisible = true;
+      },
+      closeModal() {
+        this.isModalVisible = false;
+      }
+    }
 };
 </script>

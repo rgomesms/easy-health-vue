@@ -19,10 +19,11 @@ namespace EasyHealthApi.Models
         public string estado { get; set; }
     }
 
-    public class PessoaManager{
+    public class PessoaManager
+    {
         public PessoaManager() { }
 
-        public List<Pessoa>GetPessoas()
+        public List<Pessoa> GetPessoas()
         {
             List<Pessoa> v_pessoas = new List<Pessoa>();
             MySqlConnection v_connection = ConnectionDB.connection();
@@ -50,6 +51,42 @@ namespace EasyHealthApi.Models
 
             return v_pessoas;
         }
-    }
 
+        public void AddPessoa(Pessoa p_pessoa)
+        {
+            MySqlConnection v_connection = ConnectionDB.connection();
+            v_connection.Open();
+            MySqlCommand v_query = v_connection.CreateCommand();
+            v_query.CommandText = "INSERT INTO easyhealth.pessoa (nome,email,telefone,CEP,logradouro,bairro,cidade,estado) " +
+                $"values ('{p_pessoa.nome}','{p_pessoa.email}','{p_pessoa.telefone}','{p_pessoa.CEP}','{p_pessoa.logradouro}','{p_pessoa.bairro}','{p_pessoa.cidade}','{p_pessoa.estado}')";
+            try
+            {
+                v_query.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem inserting new Pessoa into database: " + ex.Message);
+            }
+            finally
+            {
+                v_connection.Close();
+            }
+        }
+
+        public string GetPessoaId()
+        {
+            string v_pId = "";
+            MySqlConnection v_connection = ConnectionDB.connection();
+            MySqlCommand v_query = v_connection.CreateCommand();
+            v_query.CommandText = "SELECT MAX(`codigo`) FROM easyhealth.pessoa";
+            v_connection.Open();
+            MySqlDataReader v_fetchQuery = v_query.ExecuteReader();
+            while (v_fetchQuery.Read())
+            {
+                v_pId = v_fetchQuery["MAX(`codigo`)"].ToString();
+            }
+            v_connection.Close();
+            return v_pId;
+        }
+    }
 }

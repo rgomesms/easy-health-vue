@@ -82,6 +82,10 @@ namespace EasyHealthApi.Models
             {
                 Console.WriteLine("Problem inserting new Endereco into database: " + ex.Message);
             }
+            finally
+            {
+                v_connection.Close();
+            }
         }
 
     }

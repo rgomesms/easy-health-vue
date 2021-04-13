@@ -256,7 +256,7 @@ export default {
                             counter: 8,
                             on: {
                                 change: function(cep) {
-                                    t.handleCepUpdate(cep, "paciente");
+                                    t.handleCepUpdate(cep, "funcionario");
                                 }.bind(t),
                             },
                         },
@@ -298,6 +298,7 @@ export default {
                         },
                         senha: {
                             label: "Senha (Provisorio)",
+                            type: "password",
                             is: "v-text-field",
                             value: "",
                             required: true,
@@ -439,10 +440,22 @@ export default {
                                             "";
                                         t.items.consulta.fields.horario.class =
                                             "";
+                                        t.items.consulta.fields.nome.class =
+                                        "";
+                                        t.items.consulta.fields.email.class =
+                                        "";
+                                        t.items.consulta.fields.telefone.class =
+                                        "";
                                     } else {
                                         t.items.consulta.fields.data.classType =
                                             "d-none";
                                         t.items.consulta.fields.horario.class =
+                                            "d-none";
+                                        t.items.consulta.fields.nome.class =
+                                            "d-none";
+                                        t.items.consulta.fields.email.class =
+                                            "d-none";
+                                        t.items.consulta.fields.telefone.class =
                                             "d-none";
                                     }
                                 }.bind(t),
@@ -471,18 +484,41 @@ export default {
                             items: [],
                             class: "d-none",
                         },
-                    },
-                },
-                teste: {
-                    text: "Teste",
-                    icon: "mdi-home",
-                    fields: {
-                        test: {
-                            label: "Davi muito safado",
+                        nome: {
+                            label: "Nome",
                             is: "v-text-field",
                             value: "",
+                            required: true,
+                            class: "d-none",
+                        },
+                        email: {
+                            label: "Email",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                            class: "d-none",
+                        },
+                        telefone: {
+                            label: "Telefone",
+                            is: "v-text-field",
+                            value: "",
+                            required: true,
+                            class: "d-none",
                         },
                     },
+                    buttons: [
+                        {
+                            label: "Submeter",
+                            color: "success",
+                            class: "mr-4",
+                            is: "v-btn",
+                            on: {
+                                click: function() {
+                                    t.handleSubmitConsulta();
+                                }.bind(t),
+                            },
+                        },
+                    ],
                 },
             },
             selectedItem: 4,
@@ -524,58 +560,112 @@ export default {
 
         handleSubmitPaciente(path) {
             let requestBody = {
-                nome: this.items[path].fields.nome.value,
-                email: this.items[path].fields.email.value,
-                telefone: this.items[path].fields.telefone.value,
-                cep: this.items[path].fields.cep.value,
-                logradouro: this.items[path].fields.logradouro.value,
-                bairro: this.items[path].fields.bairro.value,
-                cidade: this.items[path].fields.cidade.value,
-                estado: this.items[path].fields.estado.value,
-                tipoSanguineo: this.items[path].fields.tipoSanguineo.value,
-                peso: this.items[path].fields.peso.value,
-                altura: this.items[path].fields.altura.value,
+                pessoa: {
+                    nome: this.items[path].fields.nome.value,
+                    email: this.items[path].fields.email.value,
+                    telefone: this.items[path].fields.telefone.value,
+                    cep: this.items[path].fields.cep.value,
+                    logradouro: this.items[path].fields.logradouro.value,
+                    bairro: this.items[path].fields.bairro.value,
+                    cidade: this.items[path].fields.cidade.value,
+                    estado: this.items[path].fields.estado.value
+                },
+                paciente: {
+                    tipoSanguineo: this.items[path].fields.tipoSanguineo.value,
+                    peso: this.items[path].fields.peso.value,
+                    altura: this.items[path].fields.altura.value
+                }
             };
             console.log(requestBody);
-            //Checa se tem algum elemento nao preenchido
-            // const isEmpty = !Object.values(requestBody).some(
-            //     (x) => x !== null && x !== ""
-            // );
 
-            // if (!isEmpty) sendNewAddress(requestBody);
-            // else console.log("Preencha todos os campos!");
+            sendNewPaciente(requestBody);
 
-            // async function sendNewAddress(requestBody) {
-            //     const url = `https://localhost:44320/endereco/post`;
-            //     try {
-            //         const response = await axios.post(url, requestBody);
-            //         return response;
-            //     } catch (e) {
-            //         console.log(
-            //             `Erro ao realizar a request no endpoint ${url}`,
-            //             JSON.stringify(e)
-            //         );
-            //     }
-            // }
-            // },
+            async function sendNewPaciente(requestBody) {
+                const url = `https://localhost:44320/paciente/post`;
+                try {
+                    const response = await axios.post(url, requestBody);
+                    return response;
+                } catch (e) {
+                    console.log(
+                        `Erro ao realizar a request no endpoint ${url}`,
+                        JSON.stringify(e)
+                    );
+                }
+            }
+        },
+
+        handleSubmitConsulta() {
+            let value = this.items.consulta.fields.medico.value;
+            let index = this.items.consulta.fields.medico.items.indexOf(value);
+            let codigo = this.items.consulta.fields.medico.itemsCodigos[index];
+            let dateTime = this.items.consulta.fields.data.value + " " + this.items.consulta.fields.horario.value;
+            let requestBody = {
+                datetime: dateTime,
+                nome: this.items.consulta.fields.nome.value,
+                email: this.items.consulta.fields.email.value,
+                telefone: this.items.consulta.fields.telefone.value,
+                codigoMedico: codigo
+            };
+            console.log(requestBody);
+
+            sendNewConsulta(requestBody);
+
+            async function sendNewConsulta(requestBody) {
+                const url = `https://localhost:44320/agenda/post`;
+                try {
+                    const response = await axios.post(url, requestBody);
+                    return response;
+                } catch (e) {
+                    console.log(
+                        `Erro ao realizar a request no endpoint ${url}`,
+                        JSON.stringify(e)
+                    );
+                }
+            }
         },
 
         handleSubmitFuncionario(path) {
+            let tipo = "funcionario"
             let requestBody = {
-                tipo: this.items[path].fields.tipo.value,
-                nome: this.items[path].fields.nome.value,
-                email: this.items[path].fields.email.value,
-                telefone: this.items[path].fields.telefone.value,
-                cep: this.items[path].fields.cep.value,
-                logradouro: this.items[path].fields.logradouro.value,
-                bairro: this.items[path].fields.bairro.value,
-                cidade: this.items[path].fields.cidade.value,
-                estado: this.items[path].fields.estado.value,
-                dataContrato: this.items[path].fields.dataContrato.value,
-                salario: this.items[path].fields.salario.value,
-                senha: this.items[path].fields.senha.value,
-            };
+                pessoa: {
+                    nome: this.items[path].fields.nome.value,
+                    email: this.items[path].fields.email.value,
+                    telefone: this.items[path].fields.telefone.value,
+                    cep: this.items[path].fields.cep.value,
+                    logradouro: this.items[path].fields.logradouro.value,
+                    bairro: this.items[path].fields.bairro.value,
+                    cidade: this.items[path].fields.cidade.value,
+                    estado: this.items[path].fields.estado.value
+                },
+                funcionario: {
+                    dataContrato: this.items[path].fields.dataContrato.value,
+                    salario: this.items[path].fields.salario.value,
+                    senha: this.items[path].fields.senha.value
+                }
+            }
+            if(this.items[path].fields.tipo.value === "Médico"){
+                tipo = "medico"
+                requestBody.medico = {
+                    especialidade: this.items[path].fields.especialidade.value,
+                    crm: this.items[path].fields.crm.value,
+                }
+            }
             console.log(requestBody);
+
+            sendNewFuncionario(requestBody, tipo);
+
+            async function sendNewFuncionario(requestBody, tipo) {
+                const url = `https://localhost:44320/${tipo}/post`;
+                try {
+                    const response = await axios.post(url, requestBody);
+                    return response;
+                } catch (e) {
+                    console.log(
+                        `Erro ao realizar a request no endpoint ${url}`,
+                        JSON.stringify(e)
+                    );
+                }
+            }
         },
 
         async handleCepUpdate(cep, path) {
@@ -613,22 +703,24 @@ export default {
             console.log(itemsArray[this.selectedItem]);
         },
         setHorarios() {
-            // alert(this.items.consulta.fields.medico.value, date);
-            // fetchHorarios().then((response) => {
-            //     this.items.consulta.fields.especialidade.items = response.data;
-            // });
-            // function fetchHorarios() {
-            //     try {
-            //         return axios.get(
-            //             `https://localhost:44320/agenda/get/horarios?`
-            //         );
-            //     } catch (e) {
-            //         console.log(
-            //             "Erro ao realizar a request no endpoint https://localhost:44320/agenda/get/horarios?",
-            //             JSON.stringify(e)
-            //         );
-            //     }
-            // }
+            let value = this.items.consulta.fields.medico.value;
+            let index = this.items.consulta.fields.medico.items.indexOf(value);
+            let codigo = this.items.consulta.fields.medico.itemsCodigos[index];
+            let date = this.items.consulta.fields.data.value;
+            fetchHorarios().then((response) => {
+                this.items.consulta.fields.horario.items = response.data;
+            });
+            function fetchHorarios() {
+                try {
+                    let url = `https://localhost:44320/agenda/get/horarios?codigoMedico=${codigo}&date=${date}`
+                    return axios.get(url);
+                } catch (e) {
+                    console.log(
+                        "Erro ao realizar a request no endpoint https://localhost:44320/agenda/get/horarios?",
+                        JSON.stringify(e)
+                    );
+                }
+            }
         },
         setEspecialidades() {
             fetchEspecialidades().then((response) => {

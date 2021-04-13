@@ -7,6 +7,13 @@ using EasyHealthApi.Models;
 
 namespace EasyHealthApi.Controllers
 {
+    public class RequestPessoaFuncionarioMedico
+    {
+        public Pessoa pessoa { get; set; }
+        public Funcionario funcionario { get; set; }
+        public Medico medico { get; set; }
+    }
+
     [ApiController]
     [Route("medico")]
     public class MedicoController : Controller
@@ -36,6 +43,23 @@ namespace EasyHealthApi.Controllers
                 return v_result;
             }
         }
-
+        [HttpPost("post")]
+        public void AddMedico(RequestPessoaFuncionarioMedico data)
+        {
+            //Adicionar uma pessoa primeiro
+            Pessoa v_pessoa = data.pessoa;
+            PessoaManager v_pessoaManager = new PessoaManager();
+            v_pessoaManager.AddPessoa(v_pessoa);
+            string v_pessoaId = v_pessoaManager.GetPessoaId();
+            FuncionarioManager v_funcionarioManager = new FuncionarioManager();
+            Funcionario v_funcionario = data.funcionario;
+            v_funcionario.senha = v_funcionarioManager.GetHash(v_funcionario.senha);
+            v_funcionario.codigo = v_pessoaId;
+            v_funcionarioManager.AddFuncionario(v_funcionario);
+            Medico v_medico = data.medico;
+            MedicoManager v_medicoManager = new MedicoManager();
+            v_medico.codigo = v_pessoaId;
+            v_medicoManager.AddMedico(v_medico);
+        }
     }
 }

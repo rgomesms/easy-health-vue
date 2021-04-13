@@ -87,6 +87,27 @@ namespace EasyHealthApi.Models
             return v_medicos;
         }
 
+        public void AddMedico(Medico p_medico)
+        {
+            MySqlConnection v_connection = ConnectionDB.connection();
+            v_connection.Open();
+            MySqlCommand v_query = v_connection.CreateCommand();
+            v_query.CommandText = "INSERT INTO easyhealth.medico (codigo,especialidade,crm) " +
+                $"values ('{p_medico.codigo}','{p_medico.especialidade}','{p_medico.CRM}')";
+            try
+            {
+                v_query.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem inserting new Medico into database: " + ex.Message);
+            }
+            finally
+            {
+                v_connection.Close();
+            }
+        }
+
     }
 
 }

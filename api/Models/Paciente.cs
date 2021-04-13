@@ -43,5 +43,26 @@ namespace EasyHealthApi.Models
 
             return v_pacientes;
         }
+
+        public void AddPaciente(Paciente p_paciente)
+        {
+            MySqlConnection v_connection = ConnectionDB.connection();
+            v_connection.Open();
+            MySqlCommand v_query = v_connection.CreateCommand();
+            v_query.CommandText = "INSERT INTO easyhealth.paciente (codigo,tipoSanguineo,peso,altura) " +
+                $"values ('{p_paciente.codigo}','{p_paciente.tipoSanguineo}','{p_paciente.peso}','{p_paciente.altura}')";
+            try
+            {
+                v_query.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Problem inserting new Paciente into database: " + ex.Message);
+            }
+            finally
+            {
+                v_connection.Close();
+            }
+        }
     }
 }
