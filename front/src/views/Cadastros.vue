@@ -11,7 +11,7 @@
                         outlined
                     >
                         <v-list dense>
-                            <v-subheader inset
+                            <v-subheader
                                 >Selecione o tipo de cadastro:</v-subheader
                             >
                             <v-list-item-group
