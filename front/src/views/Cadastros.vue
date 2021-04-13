@@ -16,6 +16,7 @@
                             >
                             <v-list-item-group
                                 v-model="selectedItem"
+                                mandatory
                                 color="primary"
                             >
                                 <v-list-item

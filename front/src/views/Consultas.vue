@@ -2,12 +2,13 @@
     <v-content style="padding-top:30px;" class="address">
         <v-container fluid>
             <v-row class="dd">
-                <v-col sm="2">
+                <v-col sm="3">
                     <v-card
                         rounded="lg"
-                        elevation="1"
+                        elevation="2"
                         style="min-height:40vh"
-                        class="pa-3"
+                        class="pa-5 pt-3 ml-5 mr-5"
+                        outlined
                     >
                         <v-list dense>
                             <v-subheader
@@ -15,6 +16,7 @@
                             >
                             <v-list-item-group
                                 v-model="selectedItem"
+                                mandatory
                                 color="primary"
                             >
                                 <v-list-item
@@ -37,9 +39,10 @@
                 <v-col sm="8">
                     <v-card
                         rounded="lg"
-                        elevation="1"
+                        elevation="2"
                         style="min-height:70vh"
                         class="pa-12"
+                        outlined
                     >
                         <DataTableComponent
                             :data="data"
@@ -47,11 +50,6 @@
                             :loading="loading"
                         />
                         <v-btn @click="getData">Recarregar</v-btn>
-                    </v-card>
-                </v-col>
-                <v-col sm="2">
-                    <v-card rounded="lg" elevation="1" style="min-height:40vh">
-                        <h3>This is the address page</h3>
                     </v-card>
                 </v-col>
             </v-row>
