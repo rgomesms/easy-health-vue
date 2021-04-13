@@ -1,14 +1,14 @@
 <template>
     <v-app>
-        <v-app-bar app color="primary" dark>
+        <v-app-bar app color="#37B5BB">
             <div class="d-flex align-center">
                 <v-img
                     alt="Vuetify Logo"
                     class="shrink mr-2"
                     contain
-                    src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+                    src="./assets/easyhealth.png"
                     transition="scale-transition"
-                    width="40"
+                    width="130"
                 />
             </div>
 
@@ -44,7 +44,7 @@
                 @login="loginSucedido"
             />
             <v-btn v-else
-                 color="primary"
+                 color="#37B5BB"
                     dark
                     > 
                     Logout
@@ -66,7 +66,7 @@ export default {
     data() {
       return {
         isModalVisible: false,
-        tipoUsuario:"asdasdasd"
+        tipoUsuario:""
       };
     },
     methods: {
