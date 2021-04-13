@@ -49,11 +49,6 @@
                                 Object.values(this.items)[selectedItem].buttons
                             "
                         />
-                        <!-- <FormsComponent
-                            :fields="items.endereco.fields"
-                            :buttons="items.endereco.buttons"
-                            @update_cep="handleCepUpdate"
-                        /> -->
                         <v-btn @click="testar">Testar</v-btn>
                     </v-card>
                 </v-col>
@@ -82,6 +77,7 @@ export default {
     components: { FormsComponent },
     data: (t) => {
         return {
+            genericRule: [(v) => !!v || "E-mail é necessário"],
             items: {
                 paciente: {
                     text: "Paciente",
@@ -171,8 +167,8 @@ export default {
                             required: true,
                         },
                     },
-                    buttons: [
-                        {
+                    buttons: {
+                        submit: {
                             label: "Submeter",
                             color: "success",
                             class: "mr-4",
@@ -183,7 +179,7 @@ export default {
                                 }.bind(t),
                             },
                         },
-                    ],
+                    },
                 },
                 funcionario: {
                     text: "Funcionário",
@@ -208,11 +204,6 @@ export default {
                                         t.items.funcionario.fields.crm.class =
                                             "";
                                     }
-                                    console.log(
-                                        "Mudou tipo",
-                                        especialidade,
-                                        t.items.funcionario.fields.especialidade
-                                    );
                                 }.bind(t),
                             },
                         },
@@ -220,7 +211,7 @@ export default {
                             label: "Especialidade",
                             is: "v-text-field",
                             value: "",
-                            class: "",
+                            class: "d-none",
                             required: true,
                         },
                         crm: {
@@ -228,6 +219,7 @@ export default {
                             is: "v-text-field",
                             value: "",
                             required: true,
+                            class: "d-none",
                         },
 
                         nome: {
@@ -304,8 +296,8 @@ export default {
                             required: true,
                         },
                     },
-                    buttons: [
-                        {
+                    buttons: {
+                        submit: {
                             label: "Submeter",
                             color: "success",
                             class: "mr-4",
@@ -316,7 +308,7 @@ export default {
                                 }.bind(t),
                             },
                         },
-                    ],
+                    },
                 },
                 endereco: {
                     text: "Endereço",
@@ -354,8 +346,8 @@ export default {
                             required: true,
                         },
                     },
-                    buttons: [
-                        {
+                    buttons: {
+                        submit: {
                             label: "Submeter",
                             color: "success",
                             class: "mr-4",
@@ -366,51 +358,9 @@ export default {
                                 }.bind(t),
                             },
                         },
-                    ],
-                },
-                //Exemplo de teste, para o testar a mudança de cep alterar campos, para o cadastro de funcionario
-                enderecoTeste: {
-                    text: "AutoCompletaCepAPI",
-                    icon: "mdi-comment-alert",
-                    fields: {
-                        cep: {
-                            label: "CEP",
-                            is: "v-text-field",
-                            value: "",
-                            required: true,
-                            counter: 8,
-                            on: {
-                                change: function(cep) {
-                                    t.handleCepUpdate(cep, "enderecoTeste");
-                                }.bind(t),
-                            },
-                        },
-                        logradouro: {
-                            label: "Logradouro",
-                            is: "v-text-field",
-                            value: "",
-                            required: true,
-                        },
-                        bairro: {
-                            label: "Bairro",
-                            is: "v-text-field",
-                            value: "",
-                            required: true,
-                        },
-                        cidade: {
-                            label: "Cidade",
-                            is: "v-text-field",
-                            value: "",
-                            required: true,
-                        },
-                        estado: {
-                            label: "Estado",
-                            is: "v-text-field",
-                            value: "",
-                            required: true,
-                        },
                     },
                 },
+                //Exemplo de teste, para o testar a mudança de cep alterar campos, para o cadastro de funcionario
                 consulta: {
                     text: "Consulta",
                     icon: "mdi-calendar-plus",
@@ -434,18 +384,16 @@ export default {
                             itemsCodigos: [],
                             on: {
                                 change: function() {
-                                    //Caso medico tenha valor, exibe os campos data e horario, senao nem exibe.
                                     if (t.items.consulta.fields.medico.value) {
                                         t.items.consulta.fields.data.classType =
                                             "";
                                         t.items.consulta.fields.horario.class =
                                             "";
-                                        t.items.consulta.fields.nome.class =
-                                        "";
+                                        t.items.consulta.fields.nome.class = "";
                                         t.items.consulta.fields.email.class =
-                                        "";
+                                            "";
                                         t.items.consulta.fields.telefone.class =
-                                        "";
+                                            "";
                                     } else {
                                         t.items.consulta.fields.data.classType =
                                             "d-none";
@@ -479,8 +427,6 @@ export default {
                             label: "Horario",
                             is: "v-select",
                             required: true,
-                            // value:
-                            //     "TEMPORARIO - ADICIONAR COMPONENTE PARA HORARIO",
                             items: [],
                             class: "d-none",
                         },
@@ -506,8 +452,8 @@ export default {
                             class: "d-none",
                         },
                     },
-                    buttons: [
-                        {
+                    buttons: {
+                        submit: {
                             label: "Submeter",
                             color: "success",
                             class: "mr-4",
@@ -518,10 +464,10 @@ export default {
                                 }.bind(t),
                             },
                         },
-                    ],
+                    },
                 },
             },
-            selectedItem: 4,
+            selectedItem: 3,
             funcionarioTipo: "",
         };
     },
@@ -530,6 +476,7 @@ export default {
     },
     methods: {
         handleSubmitAddress() {
+            console.log("opa, entrei no submitaddress");
             let requestBody = {
                 cep: this.items.endereco.fields.cep.value,
                 logradouro: this.items.endereco.fields.logradouro.value,
@@ -542,7 +489,6 @@ export default {
                 (x) => x !== null && x !== ""
             );
             if (!isEmpty) sendNewAddress(requestBody);
-            else alert("Preencha todos os campos!");
 
             async function sendNewAddress(requestBody) {
                 const url = `https://localhost:44320/endereco/post`;
@@ -568,13 +514,13 @@ export default {
                     logradouro: this.items[path].fields.logradouro.value,
                     bairro: this.items[path].fields.bairro.value,
                     cidade: this.items[path].fields.cidade.value,
-                    estado: this.items[path].fields.estado.value
+                    estado: this.items[path].fields.estado.value,
                 },
                 paciente: {
                     tipoSanguineo: this.items[path].fields.tipoSanguineo.value,
                     peso: this.items[path].fields.peso.value,
-                    altura: this.items[path].fields.altura.value
-                }
+                    altura: this.items[path].fields.altura.value,
+                },
             };
             console.log(requestBody);
 
@@ -598,13 +544,16 @@ export default {
             let value = this.items.consulta.fields.medico.value;
             let index = this.items.consulta.fields.medico.items.indexOf(value);
             let codigo = this.items.consulta.fields.medico.itemsCodigos[index];
-            let dateTime = this.items.consulta.fields.data.value + " " + this.items.consulta.fields.horario.value;
+            let dateTime =
+                this.items.consulta.fields.data.value +
+                " " +
+                this.items.consulta.fields.horario.value;
             let requestBody = {
                 datetime: dateTime,
                 nome: this.items.consulta.fields.nome.value,
                 email: this.items.consulta.fields.email.value,
                 telefone: this.items.consulta.fields.telefone.value,
-                codigoMedico: codigo
+                codigoMedico: codigo,
             };
             console.log(requestBody);
 
@@ -625,7 +574,7 @@ export default {
         },
 
         handleSubmitFuncionario(path) {
-            let tipo = "funcionario"
+            let tipo = "funcionario";
             let requestBody = {
                 pessoa: {
                     nome: this.items[path].fields.nome.value,
@@ -635,20 +584,20 @@ export default {
                     logradouro: this.items[path].fields.logradouro.value,
                     bairro: this.items[path].fields.bairro.value,
                     cidade: this.items[path].fields.cidade.value,
-                    estado: this.items[path].fields.estado.value
+                    estado: this.items[path].fields.estado.value,
                 },
                 funcionario: {
                     dataContrato: this.items[path].fields.dataContrato.value,
                     salario: this.items[path].fields.salario.value,
-                    senha: this.items[path].fields.senha.value
-                }
-            }
-            if(this.items[path].fields.tipo.value === "Médico"){
-                tipo = "medico"
+                    senha: this.items[path].fields.senha.value,
+                },
+            };
+            if (this.items[path].fields.tipo.value === "Médico") {
+                tipo = "medico";
                 requestBody.medico = {
                     especialidade: this.items[path].fields.especialidade.value,
                     crm: this.items[path].fields.crm.value,
-                }
+                };
             }
             console.log(requestBody);
 
@@ -712,7 +661,7 @@ export default {
             });
             function fetchHorarios() {
                 try {
-                    let url = `https://localhost:44320/agenda/get/horarios?codigoMedico=${codigo}&date=${date}`
+                    let url = `https://localhost:44320/agenda/get/horarios?codigoMedico=${codigo}&date=${date}`;
                     return axios.get(url);
                 } catch (e) {
                     console.log(

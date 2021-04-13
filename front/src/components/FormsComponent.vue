@@ -1,12 +1,14 @@
 <template>
-    <v-form ref="form" lazy-validation>
+    <v-form ref="form" v-model="valid" lazy-validation>
         <template v-for="field of fields">
             <component
                 :is="field.is"
                 v-bind="field"
                 :key="field.label"
+                :rules="genericRules"
                 v-on="field.on"
                 v-model="field.value"
+                @change="validate"
                 required
             />
         </template>
@@ -16,8 +18,8 @@
                 :is="button.is"
                 v-bind="button"
                 :key="button.label"
-                v-on="button.on"
-                required
+                v-on:click="submit"
+                :disabled="!valid"
             >
                 {{ button.label }}
             </component>
@@ -42,17 +44,24 @@ export default {
             type: Object,
         },
         buttons: {
-            type: Array,
+            type: Object,
         },
     },
+    data: () => ({
+        valid: false,
+        genericRules: [(v) => !!v || "Campo obrigatório"],
+    }),
     methods: {
-        validate() {
-            console.log(JSON.stringify(this.fields));
+        validate(e) {
+            console.log(this.fields.cep.value, this.fields.cep);
+            console.log("Entrei na validação", e);
+            return this.$refs.form.validate();
         },
-        test(t) {
-            console.log("entrei no test");
-            alert(t);
-            // this.$emit("update_cep");
+        submit() {
+            if (this.$refs.form.validate()) {
+                this.buttons.submit.on.click();
+                this.$refs.form.reset();
+            }
         },
     },
 
