@@ -70,7 +70,7 @@ namespace EasyHealthApi.Models
             }
             v_connection.Close();
 
-            var v_response = new { loginCorreto = v_loginCorreto, tipoUsuario = v_tipoUsuario, mensagem = v_mensagem };
+            var v_response = new { loginCorreto = v_loginCorreto, tipoUsuario = v_tipoUsuario, mensagem = v_mensagem, codigo = v_codigo };
             return v_response;
         }
 
