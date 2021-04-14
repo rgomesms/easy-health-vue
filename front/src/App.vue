@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-app-bar app style="background-color: rgb(55, 181, 187,.7)"  height="80">
+        <v-app-bar app :style="barStyle"  height="80">
             <div class="d-flex align-center">
                 <v-img
                     alt="Vuetify Logo"
@@ -71,6 +71,11 @@ export default {
       };
     },
     computed:{
+        barStyle(){
+            if(this.tipoUsuario)
+            return "background-color: rgba(13, 140, 152, .7);"
+            else return "background-color: rgba(55, 181, 187,.7)"
+        },
         consultas(){
             if(this.codigoUsuario&&
             this.tipoUsuario)

@@ -216,7 +216,7 @@ export default {
                         {
                             text: "Codigo do Medico",
                             align: "start",
-                            value: "codigoUsuario",
+                            value: "codigoMedico",
                         },
                         {
                             text: "Nome do Medico",
@@ -251,7 +251,7 @@ export default {
                         {
                             text: "Codigo do Medico",
                             align: "start",
-                            value: "codigoUsuario",
+                            value: "codigoMedico",
                         },
                         {
                             text: "Nome do Medico",
