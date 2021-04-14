@@ -10,7 +10,7 @@
                         class="pa-5 pt-3 ml-5 mr-5"
                         outlined
                     >
-                        <v-list dense>
+                        <v-list dense @click="testar">
                             <v-subheader
                                 >Selecione o tipo de cadastro:</v-subheader
                             >
@@ -19,19 +19,22 @@
                                 mandatory
                                 color="primary"
                             >
-                                <v-list-item
-                                    v-for="(item, i) in items"
-                                    :key="i"
-                                >
-                                    <v-list-item-icon>
-                                        <v-icon v-text="item.icon"></v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title
-                                            v-text="item.text"
-                                        ></v-list-item-title>
-                                    </v-list-item-content>
-                                </v-list-item>
+                                <template v-for="(item, i) in getItems">
+                                    <v-list-item
+                                        :key="i"
+                                        v-if="checkUser(item)"
+                                    >
+                                        <v-list-item-icon>
+                                            <v-icon v-text="item.icon"></v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title
+                                                v-text="item.text"
+                                            ></v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                    <!-- <template v-else /> -->
+                                </template>
                             </v-list-item-group>
                         </v-list>
                     </v-card>
@@ -46,10 +49,12 @@
                     >
                         <FormsComponent
                             :fields="
-                                Object.values(this.items)[selectedItem].fields
+                                Object.values(this.getItems)[selectedItem]
+                                    .fields
                             "
                             :buttons="
-                                Object.values(this.items)[selectedItem].buttons
+                                Object.values(this.getItems)[selectedItem]
+                                    .buttons
                             "
                         />
                         <v-btn @click="testar">Testar</v-btn>
@@ -75,11 +80,13 @@ export default {
     components: { FormsComponent },
     data: (t) => {
         return {
+            tipoUsuario: "",
             genericRule: [(v) => !!v || "E-mail é necessário"],
             items: {
                 paciente: {
                     text: "Paciente",
                     icon: "mdi-account",
+                    userScope: ["medico", "funcionario"],
                     fields: {
                         nome: {
                             label: "Nome",
@@ -194,6 +201,7 @@ export default {
                 funcionario: {
                     text: "Funcionário",
                     icon: "mdi-clipboard-account",
+                    userScope: ["medico", "funcionario"],
                     fields: {
                         tipo: {
                             label: "Tipo",
@@ -443,6 +451,7 @@ export default {
                             on: {
                                 changedDate: function(date) {
                                     t.items.consulta.fields.data.value = date;
+                                    t.setHorarios();
                                 }.bind(t),
                             },
                             classType: "d-none",
@@ -498,9 +507,23 @@ export default {
     created() {
         this.setEspecialidades();
     },
+    computed: {
+        getItems() {
+            let newItems = [];
+            Object.values(this.items).forEach((item) => {
+                if (this.checkUser(item)) newItems.push(item);
+            });
+            return newItems;
+        },
+    },
     methods: {
+        checkUser(item) {
+            console.log(item);
+            if (item.userScope) {
+                return item.userScope.includes(this.tipoUsuario);
+            } else return true;
+        },
         handleSubmitAddress() {
-            console.log("opa, entrei no submitaddress");
             let requestBody = {
                 cep: this.items.endereco.fields.cep.value,
                 logradouro: this.items.endereco.fields.logradouro.value,
@@ -671,9 +694,8 @@ export default {
                 }
             }
         },
-        testar() {
-            let itemsArray = Object.values(this.items);
-            console.log(itemsArray[this.selectedItem]);
+        testar(e) {
+            console.log("opa", e);
         },
         setHorarios() {
             let value = this.items.consulta.fields.medico.value;
