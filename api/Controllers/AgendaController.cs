@@ -19,6 +19,14 @@ namespace EasyHealthApi.Controllers
             return v_result;
         }
 
+        [HttpGet("get/medico")]
+        public List<Agenda> GetMedicoAgenda(int codigoMedico)
+        {
+            AgendaManager v_manager = new AgendaManager();
+            List<Agenda> v_result = v_manager.GetMedicoAgenda(codigoMedico).ToList();
+            return v_result;
+        }
+
         [HttpGet("get/horarios")]
         public List<String> GetHorariosDisponiveis(int codigoMedico, string date)
         {
