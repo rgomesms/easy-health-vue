@@ -4,6 +4,8 @@ Easy Health é um site que provê um serviço de gerenciamento de uma clínica m
 O site possui como característica uma página única, baseado em uma lógica de renderização dinâmica das páginas de acordo com
 as requisições do usuário, seguindo um ideal minimalista de design.
 
+![image](https://user-images.githubusercontent.com/49728258/114729485-68525680-9d16-11eb-9596-5c752c4cc1e5.png)
+
 ## Instruções 
 
 Aqui terá algumas instruções para obter o Easy Health em sua máquina local, caso deseja alterar o código fonte.
