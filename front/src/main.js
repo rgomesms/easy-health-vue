@@ -4,7 +4,6 @@ import vuetify from './plugins/vuetify';
 import router from './router'
 
 Vue.config.productionTip = false
-Vue.prototype.$tipoUsuario = 'funcionario'
 
 new Vue({
   vuetify,

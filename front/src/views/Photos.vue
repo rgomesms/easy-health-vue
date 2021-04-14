@@ -11,11 +11,11 @@
 </style>
 
 <script>
-import PhotosGallery from "../components/Photos/PhotosGallery";
+import PhotosGallery from '../components/Photos/PhotosGallery';
 export default {
     name: "Photos",
     components: {
-        "photos-gallery": PhotosGallery,
+        'photos-gallery': PhotosGallery,
     },
     props: {
         tipoUsuario: {

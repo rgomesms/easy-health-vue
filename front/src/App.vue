@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <v-app-bar app style="background-color: rgb(55, 181, 187,.7)"  height="80">
+        <v-app-bar app color="#37B5BB">
             <div class="d-flex align-center">
                 <v-img
                     alt="Vuetify Logo"
@@ -12,14 +12,14 @@
                 />
             </div>
 
-            <v-tabs centered dark icons-and->
+            <v-tabs centered dark icons-and-text>
                 <v-tabs-slider></v-tabs-slider>
 
                 <v-tab to="/">
                     Home
                 </v-tab>
 
-                <v-tab :tipoUsuario=this.$tipoUsuario to=/photos>
+                <v-tab :tipoUsuario=tipoUsuario to=/photos>
                     Fotos
                 </v-tab>
 
@@ -27,35 +27,36 @@
                     Cadastros
                 </v-tab>
 
-                <v-tab to="/consultas" v-if="this.$tipoUsuario">
+                <v-tab to="/newappointment">
+                    Testes
+                </v-tab>
+
+                <v-tab to="/consultas">
                     Consultas
                 </v-tab>
+
             </v-tabs>
 
             <v-spacer></v-spacer>
 
-            <ModalLogin v-if="!this.$tipoUsuario"
+            <ModalLogin v-if="!this.tipoUsuario"
                 @close="closeModal"
                 @login="loginSucedido"
             />
-            <v-btn 
-                v-else
-                color="#37B5BB"
-                dark
-                @click="logout"
+            <v-btn v-else
+                 color="#37B5BB"
+                    dark
                     > 
                     Logout
                 </v-btn>
-
         </v-app-bar>
 
-        <v-main :style="{ background: `transparent url(${require('./assets/fundo_claro.jpg')}) repeat center top` }"> <router-view></router-view> </v-main>
+        <v-main style="background-color:#eeeeee"> <router-view></router-view> </v-main>
     </v-app>
 </template>
 
 <script>
 import ModalLogin from './components/ModalLogin.vue';
-// import Vue from "vue"
 
 export default {
     name: "App",
@@ -65,17 +66,13 @@ export default {
     data() {
       return {
         isModalVisible: false,
+        tipoUsuario:""
       };
     },
     methods: {
-        logout(){
-            console.log(this.$appName);
-
-            this.$tipoUsuario=""
-        },
-        loginSucedido(tipo){
-            this.$tipoUsuario=tipo;
-            console.log(this.$tipoUsuario);
+        loginSucedido(e){
+            this.tipoUsuario=e;
+            console.log(this.tipoUsuario);
         },
       showModal() {
         this.isModalVisible = true;
