@@ -92,6 +92,7 @@ export default {
         alertMessage: "",
         loginCorreto: false,
         tipoUsuario: "",
+        codigoUsuario: "",
     }),
     computed: {
         buttonClass() {
@@ -108,7 +109,10 @@ export default {
             if (data) console.log(this.alertMessage, data);
             this.alertMessage = data.mensagem;
             if (data.loginCorreto) {
+                this.$router.push("/");
+
                 this.tipoUsuario = data.tipoUsuario;
+                this.codigoUsuario = data.codigo;
                 this.alertColor = "success";
                 this.loginCorreto = true;
             } else {
@@ -158,7 +162,10 @@ export default {
                 this.alert = false;
                 if (this.loginCorreto) {
                     this.dialog = false;
-                    this.$emit("login", this.tipoUsuario);
+                    this.$emit("login", {
+                        tipoUsuario: this.tipoUsuario,
+                        codigoUsuario: this.codigoUsuario,
+                    });
                 }
             }, 2500);
         },

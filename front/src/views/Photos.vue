@@ -17,10 +17,5 @@ export default {
     components: {
         "photos-gallery": PhotosGallery,
     },
-    props: {
-        tipoUsuario: {
-            type: String,
-        },
-    },
 };
 </script>

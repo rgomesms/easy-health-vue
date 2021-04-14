@@ -57,7 +57,6 @@
                                     .buttons
                             "
                         />
-                        <v-btn @click="testar">Testar</v-btn>
                     </v-card>
                 </v-col>
             </v-row>
@@ -80,7 +79,6 @@ export default {
     components: { FormsComponent },
     data: (t) => {
         return {
-            tipoUsuario: "",
             genericRule: [(v) => !!v || "E-mail é necessário"],
             items: {
                 paciente: {
@@ -501,12 +499,23 @@ export default {
                 },
             },
             selectedItem: 0,
-            funcionarioTipo: "",
         };
+    },
+
+    props: {
+        tipoUsuario: { type: String, default: "" },
     },
     created() {
         this.setEspecialidades();
     },
+
+    beforeCreate() {
+        if (this.$route.params.tipoUsuario)
+            this.tipoUsuario = this.$route.params.tipoUsuario;
+        (this.tipoUsuario = ""), console.log(this.tipoUsuario);
+        console.log(this.codigoMedico, this.tipoUsuario);
+    },
+
     computed: {
         getItems() {
             let newItems = [];
@@ -518,7 +527,6 @@ export default {
     },
     methods: {
         checkUser(item) {
-            console.log(item);
             if (item.userScope) {
                 return item.userScope.includes(this.tipoUsuario);
             } else return true;

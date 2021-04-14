@@ -19,22 +19,22 @@
                     Home
                 </v-tab>
 
-                <v-tab :tipoUsuario=this.$tipoUsuario to=/photos>
+                <v-tab to=/photos>
                     Fotos
                 </v-tab>
 
-                <v-tab to="/cadastros">
+                <v-tab :to="cadastros">
                     Cadastros
                 </v-tab>
 
-                <v-tab to="/consultas" v-if="this.$tipoUsuario">
+                <v-tab :to="consultas" v-if="this.tipoUsuario" >
                     Consultas
                 </v-tab>
             </v-tabs>
 
             <v-spacer></v-spacer>
 
-            <ModalLogin v-if="!this.$tipoUsuario"
+            <ModalLogin v-if="!this.tipoUsuario"
                 @close="closeModal"
                 @login="loginSucedido"
             />
@@ -65,17 +65,54 @@ export default {
     data() {
       return {
         isModalVisible: false,
+        codigoUsuario:null,
+        tipoUsuario:"",
+        test:null,
       };
     },
+    computed:{
+        consultas(){
+            if(this.codigoUsuario&&
+            this.tipoUsuario)
+                return{
+                name:"Consultas",
+                params:{tipoUsuario:this.tipoUsuario,
+                    codigoUsuario:this.codigoUsuario}
+            }
+            else
+                return "/consultas"
+        },
+        cadastros(){
+            if(this.codigoUsuario&&
+            this.tipoUsuario)
+                return{
+                name:"Cadastros",
+                params:{tipoUsuario:this.tipoUsuario,
+                    codigoUsuario:this.codigoUsuario}
+            }
+            else
+                return "/cadastros"
+        },
+        
+    },
+
     methods: {
+
         logout(){
             console.log(this.$appName);
+                this.$router.push("/");
 
-            this.$tipoUsuario=""
+            this.tipoUsuario=""
         },
-        loginSucedido(tipo){
-            this.$tipoUsuario=tipo;
-            console.log(this.$tipoUsuario);
+        loginSucedido(data){
+            this.codigoUsuario=data.codigoUsuario
+            this.tipoUsuario=data.tipoUsuario;
+            console.log("cc",this.codigoUsuario);
+            this.test={
+                name:"Consultas",
+                params:{codigoUsuario:this.codigoUsuario}
+            }
+            console.log(this.tipoUsuario);
         },
       showModal() {
         this.isModalVisible = true;

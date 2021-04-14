@@ -10,7 +10,7 @@ namespace EasyHealthApi.Models
     {
         public static MySqlConnection connection()
         {
-            string connetionString = "server=localhost;port=3306;database=;username=root;password=root";
+            string connetionString = "server=localhost;port=3306;database=;username=root;password=123";
             MySqlConnection connection = new MySqlConnection(connetionString);
 
             return connection;

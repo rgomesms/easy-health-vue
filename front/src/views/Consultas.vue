@@ -19,19 +19,21 @@
                                 mandatory
                                 color="primary"
                             >
-                                <v-list-item
-                                    v-for="(item, i) in items"
-                                    :key="i"
-                                >
-                                    <v-list-item-icon>
-                                        <v-icon v-text="item.icon"></v-icon>
-                                    </v-list-item-icon>
-                                    <v-list-item-content>
-                                        <v-list-item-title
-                                            v-text="item.text"
-                                        ></v-list-item-title>
-                                    </v-list-item-content>
-                                </v-list-item>
+                                <template v-for="(item, i) in getItems">
+                                    <v-list-item
+                                        :key="i"
+                                        v-if="checkUser(item)"
+                                    >
+                                        <v-list-item-icon>
+                                            <v-icon v-text="item.icon"></v-icon>
+                                        </v-list-item-icon>
+                                        <v-list-item-content>
+                                            <v-list-item-title
+                                                v-text="item.text"
+                                            ></v-list-item-title>
+                                        </v-list-item-content>
+                                    </v-list-item>
+                                </template>
                             </v-list-item-group>
                         </v-list>
                     </v-card>
@@ -49,7 +51,7 @@
                             :headers="headers"
                             :loading="loading"
                         />
-                        <v-btn @click="getData">Recarregar</v-btn>
+                        <v-btn class="mt-5" @click="getData">Recarregar</v-btn>
                     </v-card>
                 </v-col>
             </v-row>
@@ -192,6 +194,7 @@ export default {
                     text: "Todos Agendamentos",
                     icon: "mdi-calendar",
                     urlSufix: "agenda/get",
+                    userScope: ["funcionario"],
                     headers: [
                         {
                             text: "Codigo",
@@ -213,7 +216,42 @@ export default {
                         {
                             text: "Codigo do Medico",
                             align: "start",
-                            value: "codigoMedico",
+                            value: "codigoUsuario",
+                        },
+                        {
+                            text: "Nome do Medico",
+                            align: "start",
+                            value: "nomeMedico",
+                        },
+                    ],
+                },
+                {
+                    text: "Minha Agenda",
+                    icon: "mdi-calendar-today",
+                    urlSufix: `agenda/get/medico?codigoMedico=${this.codigoUsuario}`,
+                    userScope: ["medico"],
+                    headers: [
+                        {
+                            text: "Codigo",
+                            align: "start",
+                            value: "codigo",
+                        },
+                        {
+                            text: "Nome",
+                            value: "nome",
+                        },
+                        {
+                            text: "Email",
+                            value: "email",
+                        },
+                        {
+                            text: "Telefone",
+                            value: "telefone",
+                        },
+                        {
+                            text: "Codigo do Medico",
+                            align: "start",
+                            value: "codigoUsuario",
                         },
                         {
                             text: "Nome do Medico",
@@ -262,19 +300,28 @@ export default {
             this.getData();
         },
     },
+    computed: {
+        getItems() {
+            let newItems = [];
+            Object.values(this.items).forEach((item) => {
+                if (this.checkUser(item)) newItems.push(item);
+            });
+            return newItems;
+        },
+    },
 
     methods: {
         async getData() {
             this.data = []; //Emptying the array to test reload
             this.headers = [];
-            let urlSufix = this.items[this.selectedItem].urlSufix;
+            let urlSufix = this.getItems[this.selectedItem].urlSufix;
             try {
                 this.loading = true;
                 const response = await axios.get(
                     `https://localhost:44320/${urlSufix}`
                 );
                 this.data = response.data;
-                this.headers = this.items[this.selectedItem].headers;
+                this.headers = this.getItems[this.selectedItem].headers;
             } catch (e) {
                 alert(
                     "Houve erro" +
@@ -284,6 +331,16 @@ export default {
             }
             this.loading = false;
         },
+        checkUser(item) {
+            if (item.userScope) {
+                return item.userScope.includes(this.tipoUsuario);
+            } else return true;
+        },
+    },
+
+    props: {
+        tipoUsuario: { type: String, default: "" },
+        codigoUsuario: { type: String },
     },
     async created() {
         this.getData();
