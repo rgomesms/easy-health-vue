@@ -33,6 +33,7 @@
                                         label="Email"
                                         required
                                         outlined
+                                        clearable
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12">
@@ -43,6 +44,7 @@
                                         type="password"
                                         required
                                         outlined
+                                        clearable
                                     ></v-text-field>
                                 </v-col>
                             </v-row>
@@ -109,7 +111,6 @@ export default {
                 this.tipoUsuario = data.tipoUsuario;
                 this.alertColor = "success";
                 this.loginCorreto = true;
-                this.$emit("login", this.tipoUsuario);
             } else {
                 this.alertColor = "error";
             }
@@ -155,8 +156,11 @@ export default {
             // `event` is the native DOM event
             window.setInterval(() => {
                 this.alert = false;
-                if (this.loginCorreto) this.dialog = false;
-            }, 3000);
+                if (this.loginCorreto) {
+                    this.dialog = false;
+                    this.$emit("login", this.tipoUsuario);
+                }
+            }, 2500);
         },
     },
     mounted: function() {

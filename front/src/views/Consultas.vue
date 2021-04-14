@@ -2,7 +2,7 @@
     <v-content style="padding-top:30px;" class="address">
         <v-container fluid>
             <v-row class="dd">
-                <v-col sm="3">
+                <v-col sm="4">
                     <v-card
                         rounded="lg"
                         elevation="2"

@@ -65,7 +65,11 @@ export default {
     data: () => ({
         valid: false,
         genericRules: [(v) => !!v || "Campo obrigatório"],
+        initialState: Object.assign(this.$refs.form),
     }),
+    mounted() {
+        console.log(this.$refs.form);
+    },
     methods: {
         validate() {
             // console.log("Entrei na validação", e);
